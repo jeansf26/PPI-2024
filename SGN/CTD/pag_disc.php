@@ -1,17 +1,22 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
 session_start();
 if (!isset($_SESSION["email"])) {
-    header("Location: f_login.php");
+    header("Location: ../f_login.php");
     exit();
 }
 ?>
 
 <?php
+
+//Seleciona o usuário logado, conecta e tals
+
 include "../config.php";
 
 $emaillogado = $_SESSION['email'];
 $ID = $_GET['ID'];
 
+//Aqui ele pega o id que será necessário para voltar para a turma correta
 $ID_return = "SELECT idCurso FROM turma WHERE ID = ?";
 $stmtID_return = $conn->prepare($ID_return);
 $stmtID_return->bind_param("i", $ID);
@@ -20,15 +25,14 @@ $result = $stmtID_return->get_result();
 $ID_returnrow = $result->fetch_assoc();
 $IDreturn = $ID_returnrow['idCurso'];
 
-// Cria a conexão
+$emaillogado = $_SESSION['email'];
+
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Verifica a conexão
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Seleciona o usuário logado
 $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
 $resultx = $conn->query($sqlx);
 ?>
@@ -50,7 +54,7 @@ $resultx = $conn->query($sqlx);
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
                     <a href="" class="d-block p-3 link-dark text-decoration-none" title="Iffar" data-bs-toggle="tooltip" data-bs-placement="right">
-                        <img height="48" src="../if.png" alt="Iffar">
+                        <img class="ms-5 me-5" height="48" src="../if.png" alt="Iffar">
                         <span class="visually-hidden">Iffar</span>
                     </a>
                     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
@@ -102,12 +106,12 @@ $resultx = $conn->query($sqlx);
                 </div>
                 </div>
                 
-                <!-- Exibição dos alunos -->
+                <!-- Exibição das disciplinas -->
                 <div>
                     <?php 
                     
 
-                    // Seleciona todos os alunos
+                    // Seleciona todas as disciplinas relacionadas com a turma escolhida
                     $sql = "SELECT * FROM disciplina WHERE idTurma = $ID";
                     $result = $conn->query($sql);
 
@@ -135,11 +139,6 @@ $resultx = $conn->query($sqlx);
             </main>
         </div>
     </div>
-
-    <?php
-    // Fecha a conexão
-    $conn->close();
-    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9Bk6u6kD/5kHME9Hf/h2z2esC/6At77se9eNtfU4cg5CZ2/3ox" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-cH46zDFo4T+L46Wb5eKxE4l3JxfFkeTH8m+Cm08Qos9RVHSjtDtzHT3yZxDQ8Nd5" crossorigin="anonymous"></script>

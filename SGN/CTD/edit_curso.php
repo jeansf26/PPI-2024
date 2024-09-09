@@ -1,3 +1,12 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: ../f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,11 +56,13 @@
 <body>
     <div class="container">
         <?php
-        include '../config.php'; // Inclua seu arquivo de configuração do banco de dados
+        //Seleciona o usuário logado, conecta e tals
+        include '../config.php';
 
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
+            //Verifica se o formulário de edição foi enviado
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Recebe os dados do formulário
                 $name = $_POST['name'];

@@ -1,13 +1,24 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <html>
 
 <head>
- <title>Sign up</title>
+ <title>Cadastro de professores</title>
+
+ <!-- CCS, entendo pouco mas esta aí (Se possível até o final trocamos tudo por bootstrap) -->
 
 <style>
 
 * {box-sizing: border-box}
 
-/* Add padding to containers */
+
 .container {
   padding: 16px;
 }
@@ -75,8 +86,7 @@ a {
 
 <form action="cadastro_prof.php" method="post">
   <div class="container">
-    <h1>Register</h1>
-    <p>Please fill in this form to create an account.</p>
+    <h1>Cadastro de alunos</h1>
     <hr>
 
     <label for="name"><b>Nome</b></label>
@@ -92,7 +102,7 @@ a {
     <input type="text" placeholder="insira a sua Matricula SIAPE" name="mat" id="mat" required>
 	
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn">Cadastrar</button>
   </div>
 
   

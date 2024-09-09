@@ -1,10 +1,14 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
-session_start(); //veremos depois
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+<?php
+session_start(); 
 
-//include "functions.php"; //veremos depois
-
-
-// Insere o arquivo de configuracao de acesso ao Banco MYSQL
     include ('config.php');
 
 
@@ -16,9 +20,10 @@ session_start(); //veremos depois
 	 $tipo = "setor";
 
 
-//----------------------------------------------------------------------------------------
+
 ?>	
 
+<!-- Verifica se os dados enviados não estão vazios -->
 <?php
 if($nom==""){
 		?>
@@ -46,7 +51,7 @@ if($sen==""){
 }
 
 
-//faz o INSERT na tabela "usuario" no BANCO "progweb" 
+//faz o INSERT na tabela
 
 else{
 

@@ -1,10 +1,14 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
-session_start(); //veremos depois
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+<?php
+session_start(); 
 
-//include "functions.php"; //veremos depois
-
-
-// Insere o arquivo de configuracao de acesso ao Banco MYSQL
     include ('config.php');
 
 
@@ -31,14 +35,14 @@ session_start(); //veremos depois
 	 $proj_ens = isset($_POST['proj_ens']) ? $_POST['proj_ens'] : 0;
 
 
-//----------------------------------------------------------------------------------------
+
 ?>	
 
 <?php		
 
 
 
-//faz o INSERT na tabela "usuario" no BANCO "progweb" 
+//faz o INSERT na tabela
 
 
 		$sql = "INSERT INTO aluno (CPF, Acompanhamento, Email, Nome, Aux_permanencia, Cidade, Genero, Reprovacoes, Apoio_psic, Cotista, Data_nasc, UF, Estagio, Interno, Matricula, Acomp_saude, Proj_pesq, Proj_ext, Proj_ens) VALUES('{$cpf}','{$acomp}','{$mail}','{$nom}','{$aux_perm}','{$cidade}','{$gen}','{$rep}','{$ap_psic}','{$cot}','{$data}','{$uf}','{$estag}','{$inter}','{$mat}','{$acomp_saude}','{$proj_pesq}', '{$proj_ext}', '{$proj_ens}')" or die( mysql_error() );

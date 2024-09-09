@@ -1,18 +1,28 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: ../f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <html>
 
 <head>
- <title>Sign up</title>
+ <title>Cadastro de disciplinas</title>
+
+<!-- CCS, entendo pouco mas esta aí (Se possível até o final trocamos tudo por bootstrap) -->
 
 <style>
 
 * {box-sizing: border-box}
 
-/* Add padding to containers */
+
 .container {
   padding: 16px;
 }
 
-/* Full-width input fields */
 input[type=text], input[type=password], input[type=date] {
   width: 100%;
   padding: 15px;
@@ -27,13 +37,11 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-/* Overwrite default styles of hr */
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
 
-/* Set a style for the submit/register button */
 .registerbtn {
   background-color: #04AA6D;
   color: white;
@@ -49,18 +57,15 @@ hr {
   opacity:1;
 }
 
-/* Add a blue text color to links */
 a {
   color: dodgerblue;
 }
 
-/* Set a grey background color and center the text of the "sign in" section */
 .signin {
   background-color: #f1f1f1;
   text-align: center;
 }
 
-/* Extra style for the cancel button (red) */
 .cancelbtn {
   width: auto;
   padding: 10px 18px;
@@ -68,6 +73,7 @@ a {
 }
 
 </style>
+
 <?php 
 
   $ID = $_GET['ID'];
@@ -77,6 +83,7 @@ a {
 
 </head>
 
+<!-- Formulário de cadastro -->
 <form action="cadastro_disc.php" method="post">
   <div class="container">
     <h1>Cadastro de Disciplinas</h1>

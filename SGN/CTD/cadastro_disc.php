@@ -1,14 +1,17 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
-session_start(); //veremos depois
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: ../f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
 
-//include "functions.php"; //veremos depois
+<?php
+    //Seleciona o usuário logado, conecta e tals
+session_start();
 
-
-// Insere o arquivo de configuracao de acesso ao Banco MYSQL
     include ('../config.php');
-
-
-// Puxa os dados do formulário via método POST
 
 	 $nom = $_POST["name"];
 	 $ID = $_POST['ID'];
@@ -28,7 +31,8 @@ if($nom==""){
 }
 
 else{
-
+	
+			//Insere os dados no banco de dados
 			$sql = "INSERT INTO disciplina (Nome, idTurma) VALUES('{$nom}','{$ID}')" or die( mysql_error() );
 
 			$salvar = mysqli_query($conn, $sql);

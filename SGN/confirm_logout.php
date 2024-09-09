@@ -1,3 +1,12 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +20,7 @@
 </head>
 <body>
     <div class="container">
+        
         <!-- Modal de confirmação -->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

@@ -1,12 +1,14 @@
+
 <?php
 session_start();  // Inicia a session
 
 
-
+//Pega os dados enviados pelo formulário de login
 $email = $_POST['email'];
 $senha = $_POST['senha'];
 
 
+//Verifica se tudo foi preenchido
 if((!$email) || (!$senha)){
 
 	echo "<script>alert('Por favor, todos campos devem ser preenchidos!')</script>;";
@@ -16,10 +18,10 @@ if((!$email) || (!$senha)){
 }
 else{
 
-	 $senha_encriptada = md5($senha);
+	 $senha_encriptada = md5($senha); //Encriptando senha (Mudar mais tarde)
 
 
-
+//Verifica se o usuário existe no banco de dados (Ainda não é seguro contra sql injection eu acho, talvez nem o resto, veremos)
 include "config.php";
 
 	$sql = mysqli_query($conn, "SELECT * FROM usuario_setor_professor_administrador WHERE Email='{$email}' AND Senha='{$senha_encriptada}'");
@@ -36,12 +38,12 @@ include "config.php";
 
 			}
 
-//ainda não abordaremos as sessoes no PHP!
+//Sessão do usuario
 
 			$_SESSION['email'] = $email;
 
 			
-//REDIRECIONAMENTO PARA A PAGINA DE LOGADO NO SISTEMA
+//Vai pro index
 
 			header("Location: index.php");
 
@@ -49,6 +51,7 @@ include "config.php";
 
 	}
 	else{
+		//Informações erradas
 
 		echo "<script>alert('Você não pode logar-se! Este usuário e/ou senha não são válidos! Por favor tente novamente ou contate o adminstrador do sistema!')</script>;";
 

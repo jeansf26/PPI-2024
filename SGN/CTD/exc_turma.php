@@ -1,12 +1,18 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: ../f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Excluir Aluno</title>
-    <!-- Link do Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Script do Bootstrap JS e jQuery -->
+    <title>Excluir Aluno</title>    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -14,19 +20,19 @@
 <body>
     <div class="container">
         <?php
+        //Seleciona o usuário logado, conecta e tals
         include '../config.php';
 
-        // Cria a conexão
         $conn = new mysqli($servername, $username, $password, $database);
 
-        // Verifica a conexão
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
         if (isset($_GET['ID'])) {
-            $ID = intval($_GET['ID']); // Garante que o ID é um número inteiro
+            $ID = intval($_GET['ID']); 
 
+            //Aqui ele pega o id que será necessário para voltar para a turma correta
             $ID_return = "SELECT idCurso FROM turma WHERE ID = ?";
             $stmtID_return = $conn->prepare($ID_return);
             $stmtID_return->bind_param("i", $ID);
@@ -40,15 +46,15 @@
                 $conn->begin_transaction();
 
                 try {
+                    //Deletando a turma e suas disciplinas correspondentes
                     $sql_del_d = "DELETE FROM disciplina WHERE idTurma = ?";
                     $stmt_d = $conn->prepare($sql_del_d);
-                    $stmt_d->bind_param("i", $ID); // Usando bind_param para evitar SQL Injection
+                    $stmt_d->bind_param("i", $ID); 
                     $stmt_d->execute();
 
-                    // Exclua os registros de turma
                     $sql_del_t = "DELETE FROM turma WHERE ID = ?";
                     $stmt_t = $conn->prepare($sql_del_t);
-                    $stmt_t->bind_param("i", $ID); // Usando bind_param para evitar SQL Injection
+                    $stmt_t->bind_param("i", $ID);
                     $stmt_t->execute();
 
                     // Se tudo correu bem, confirma a transação
@@ -100,8 +106,6 @@
             echo 'ID do registro não fornecido.';
         }
 
-        // Fecha a conexão
-        $conn->close();
         ?>
     </div>
 </body>

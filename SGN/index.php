@@ -1,8 +1,25 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+
 <?php
     session_start();
     if (!isset($_SESSION["email"])) {
         header("Location: f_login.php");
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+
+    $email = $_SESSION['email'];
+    include 'config.php';
+
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    $sql = "SELECT * FROM usuario_setor_professor_administrador WHERE Email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
     }
 ?>
 
@@ -19,11 +36,12 @@
 <body>
     <div class="container-fluid">
         <div class="row">
+
             <!-- Barra lateral -->
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
                     <a href="" class="d-block p-3 link-dark text-decoration-none" title="Iffar" data-bs-toggle="tooltip" data-bs-placement="right">
-                        <img height="48" src="if.png" alt="Iffar">
+                        <img class="ms-5 me-5" height="48" src="if.png" alt="Iffar">
                         <span class="visually-hidden">Iffar</span>
                     </a>
                     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
@@ -67,7 +85,15 @@
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Cabeçalho do Site</h1>
+                    <div class="align-self-end"><?php 
+                    echo "<div class='col-12 p-2 border border-dark border-2 border-opacity-50 rounded-3 mb-3'>";
+                    echo $row['Nome'] . " - " . $row['Email'] . "<br>";
+                    echo "</div>";?>
+                        
+                    </div>
                 </div>
+
+
                 <!-- Adicione o conteúdo principal aqui -->
                 <div>
                     <p>Bem-vindo à página principal!</p>

@@ -1,18 +1,27 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <html>
 
 <head>
- <title>New Listing</title>
+ <title>Cadastrar alunos</title>
+
+ <!-- CCS, entendo pouco mas esta aí (Se possível até o final trocamos tudo por bootstrap) -->
 
 <style>
 
 * {box-sizing: border-box}
 
-/* Add padding to containers */
 .container {
   padding: 16px;
 }
 
-/* Full-width input fields */
 input[type=text], input[type=password], input[type=date] {
   width: 100%;
   padding: 15px;
@@ -27,13 +36,11 @@ input[type=text]:focus, input[type=password]:focus {
   outline: none;
 }
 
-/* Overwrite default styles of hr */
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
 
-/* Set a style for the submit button */
 .sendbtn {
   background-color: #04AA6D;
   color: white;
@@ -49,18 +56,14 @@ hr {
   opacity:1;
 }
 
-/* Add a blue text color to links */
 a {
   color: dodgerblue;
 }
 
-/* Set a grey background color and center the text of the section */
 .signin {
   background-color: #f1f1f1;
   text-align: center;
 }
-
-/* Extra style for the cancel button (red) */
 .cancelbtn {
   width: auto;
   padding: 10px 18px;
@@ -73,10 +76,11 @@ a {
 
 </head>
 
+<!-- Formulário de cadastro -->
+
 <form enctype="multipart/form-data" action="cadastro_aluno.php"  method="POST">
   <div class="container">
-    <h1>Create new listing</h1>
-    <p>Please fill this form correctly to create a new listing.</p>
+    <h1>Cadastrar alunos</h1>
     <hr>
 
     <label for="name"><b>Nome</b></label>

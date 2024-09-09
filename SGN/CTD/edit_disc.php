@@ -1,3 +1,12 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
+<?php
+    session_start();
+    if (!isset($_SESSION["email"])) {
+        header("Location: ../f_login.php");
+        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,11 +56,13 @@
 <body>
     <div class="container">
         <?php
-        include '../config.php'; // Inclua seu arquivo de configuração do banco de dados
+        //Seleciona o usuário logado, conecta e tals
+        include '../config.php';
 
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
+        //Aqui ele pega o id que será necessário para voltar para a turma correta
         $ID_return = "SELECT idTurma FROM disciplina WHERE ID = ?";
         $stmtID_return = $conn->prepare($ID_return);
         $stmtID_return->bind_param("i", $ID);

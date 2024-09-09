@@ -1,3 +1,4 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
 session_start();
 if (!isset($_SESSION["email"])) {
@@ -7,19 +8,19 @@ if (!isset($_SESSION["email"])) {
 ?>
 
 <?php
+
+//Seleciona o usuário logado, conecta e tals
+
 include "config.php";
 
 $emaillogado = $_SESSION['email'];
 
-// Cria a conexão
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Verifica a conexão
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Seleciona o usuário logado
 $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
 $resultx = $conn->query($sqlx);
 ?>
@@ -41,7 +42,7 @@ $resultx = $conn->query($sqlx);
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
                     <a href="" class="d-block p-3 link-dark text-decoration-none" title="Iffar" data-bs-toggle="tooltip" data-bs-placement="right">
-                        <img height="48" src="if.png" alt="Iffar">
+                        <img class="ms-5 me-5" height="48" src="if.png" alt="Iffar">
                         <span class="visually-hidden">Iffar</span>
                     </a>
                     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
@@ -83,15 +84,16 @@ $resultx = $conn->query($sqlx);
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Lista de Professores</h1>
+                    
                 </div>
                 <div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
                     <a href="f_professor.php" class="nav-link"><i class="bi bi-plus-square-fill"></i></a>
                 </div>
                 
-                <!-- Exibição dos alunos -->
+                <!-- Exibição dos Professores -->
                 <div>
                     <?php 
-                    // Seleciona todos os alunos
+                    // Seleciona todos os professores
                     $sql = "SELECT * FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'prof'";
                     $result = $conn->query($sql);
 
@@ -99,7 +101,7 @@ $resultx = $conn->query($sqlx);
                         while($row = $result->fetch_assoc()) {
                             echo "<div class='col-4 p-3 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3'>";
                             echo $row['Nome'] . " - " . $row['Email'] . "<br>";
-                            echo $row['ID'];
+                            echo $row['MatriculaSiape'];
                             echo "<div class= 'row'>";
                             echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
                                 <a href='edit_prof.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
@@ -119,10 +121,6 @@ $resultx = $conn->query($sqlx);
         </div>
     </div>
 
-    <?php
-    // Fecha a conexão
-    $conn->close();
-    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9Bk6u6kD/5kHME9Hf/h2z2esC/6At77se9eNtfU4cg5CZ2/3ox" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-cH46zDFo4T+L46Wb5eKxE4l3JxfFkeTH8m+Cm08Qos9RVHSjtDtzHT3yZxDQ8Nd5" crossorigin="anonymous"></script>
