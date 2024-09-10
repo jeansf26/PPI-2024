@@ -35,6 +35,7 @@ if ($conn->connect_error) {
 
 $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
 $resultx = $conn->query($sqlx);
+$rowsx = $resultx->fetch_assoc()
 ?>
 
 <!DOCTYPE html>
@@ -101,9 +102,13 @@ $resultx = $conn->query($sqlx);
                 <div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 me-3 ms-3 bg-danger'>
                     <a href="pag_turma.php?ID=<?php echo $IDreturn; ?>" class="nav-link"><i class="bi bi-arrow-return-left"></i></a>
                 </div>
-                <div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
-                    <a href="f_disc.php?ID=<?php echo $ID; ?>" class="nav-link"><i class="bi bi-plus-square-fill"></i></a>
-                </div>
+                <?php  
+                if ($rowsx['Tipo_usuario'] == 'admin') {
+                    echo "<div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
+                    <a href='f_disc.php?ID=$ID' class='nav-link'><i class='bi bi-plus-square-fill'></i></a>
+                </div>";
+                }
+                ?>
                 </div>
                 
                 <!-- Exibição das disciplinas -->
@@ -122,12 +127,14 @@ $resultx = $conn->query($sqlx);
                             echo $row['Nome'];
                             echo "</a>";
                             echo "<div class= 'row'>";
-                            echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
-                                <a href='edit_disc.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
-                                </div>";
-                            echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
-                                <a href='exc_disc.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-trash3'></i></a>
-                                </div>";
+                            if ($rowsx['Tipo_usuario'] == 'admin') {
+                                echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                                    <a href='edit_disc.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
+                                    </div>";
+                                echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                                    <a href='exc_disc.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-trash3'></i></a>
+                                    </div>";
+                                }
                             echo "</div>";
                             echo "</div>";
                         }

@@ -23,6 +23,7 @@ if ($conn->connect_error) {
 
 $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
 $resultx = $conn->query($sqlx);
+$rowsx = $resultx->fetch_assoc()
 ?>
 
 
@@ -65,7 +66,7 @@ $resultx = $conn->query($sqlx);
                             </a>
                         </li>
                         <li>
-                            <a href="aluno_registro.php" class="nav-link active py-3 border-bottom" title="Alunos" data-bs-toggle="tooltip" data-bs-placement="right">
+                            <a href="pag_aluno.php" class="nav-link active py-3 border-bottom" title="Alunos" data-bs-toggle="tooltip" data-bs-placement="right">
                                 <i class="bi bi-globe"></i>
                             </a>
                         </li>
@@ -87,11 +88,15 @@ $resultx = $conn->query($sqlx);
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Lista de Alunos</h1>
-                    
+
                 </div>
-                <div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
-                    <a href="aluno_registro.php" class="nav-link"><i class="bi bi-plus-square-fill"></i></a>
-                </div>
+                <?php  
+                if ($rowsx['Tipo_usuario'] == 'admin' || $rowsx['G_alunos'] == 1) {
+                    echo "<div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
+                    <a href='aluno_registro.php' class='nav-link'><i class='bi bi-plus-square-fill'></i></a>
+                </div>";
+                }
+                ?>
                 
                 <!-- Exibição dos alunos -->
                 <div>
@@ -106,12 +111,14 @@ $resultx = $conn->query($sqlx);
                             echo $row['Nome'] . " - " . $row['CPF'] . "<br>";
                             echo $row['Cidade'];
                             echo "<div class='row'>";
-                            echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                            if ($rowsx['Tipo_usuario'] == 'admin' || $rowsx['G_alunos'] == 1) {
+                                echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
                                 <a href='edit_aluno.php?CPF=" . $row['CPF'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
                                 </div>";
-                            echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                                echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
                                 <a href='exc_aluno.php?CPF=" . $row['CPF'] . "' class='nav-link'><i class='bi bi-trash3'></i></a>
                                 </div>";
+                            }
                             echo "</div>";
                             echo "</div>";                        }
                     } else {

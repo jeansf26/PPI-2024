@@ -84,7 +84,7 @@
             <!-- Conteúdo principal -->
             <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Cabeçalho do Site</h1>
+                    <h1 class="h2">BEM VINDO!</h1>
                     <div class="align-self-end"><?php 
                     echo "<div class='col-12 p-2 border border-dark border-2 border-opacity-50 rounded-3 mb-3'>";
                     echo $row['Nome'] . " - " . $row['Email'] . "<br>";

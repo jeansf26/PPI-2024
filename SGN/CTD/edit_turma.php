@@ -106,7 +106,7 @@
                         <label for="name"><b>Nome</b></label>
                         <input type="text" placeholder="Digite o nome" name="name" id="name" value="' . htmlspecialchars($row['Nome']) . '" required>
                         <label for="entrega"><b>Data de entrega de notas</b></label>
-                        <input type="date" placeholder="Digite o nome" name="entrega" id="entrega" value="' . htmlspecialchars($row['Nome']) . '" required>
+                        <input type="date" placeholder="Digite o nome" name="entrega" id="entrega" value="' . htmlspecialchars($row['Nome']) . '" >
                         <button type="submit" class="registerbtn">Atualizar</button>
                     </form>
                     ';

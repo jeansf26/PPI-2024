@@ -23,6 +23,7 @@ if ($conn->connect_error) {
 
 $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
 $resultx = $conn->query($sqlx);
+$rowsx = $resultx->fetch_assoc()
 ?>
 
 <!DOCTYPE html>
@@ -85,9 +86,13 @@ $resultx = $conn->query($sqlx);
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Lista de Cursos</h1>
                 </div>
-                <div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
-                    <a href="f_curso.php" class="nav-link"><i class="bi bi-plus-square-fill"></i></a>
-                </div>
+                <?php  
+                if ($rowsx['Tipo_usuario'] == 'admin') {
+                    echo "<div class='d-flex justify-content-center col-1 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3 bg-primary'>
+                    <a href='f_curso.php' class='nav-link'><i class='bi bi-plus-square-fill'></i></a>
+                </div>";
+                }
+                ?>
                 
                 <!-- Exibição dos cursos -->
                 <div>
@@ -103,12 +108,14 @@ $resultx = $conn->query($sqlx);
                             echo $row['Nome'];
                             echo "</a>";
                             echo "<div class= 'row'>";
-                            echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
-                                <a href='edit_curso.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
-                                </div>";
-                            echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
-                                <a href='exc_curso.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-trash3'></i></a>
-                                </div>";
+                            if ($rowsx['Tipo_usuario'] == 'admin') {
+                                echo "<div class='d-flex justify-content-center mt-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                                    <a href='edit_curso.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-pencil-square'></i></a>
+                                    </div>";
+                                echo "<div class='d-flex justify-content-center mt-2 ms-2 col-2 p-2 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg bg-success'>
+                                    <a href='exc_curso.php?ID=" . $row['ID'] . "' class='nav-link'><i class='bi bi-trash3'></i></a>
+                                    </div>";
+                                }
                             echo "</div>";
                             echo "</div>";
                         }
