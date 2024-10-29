@@ -1,80 +1,70 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
-    background-color: #f4f4f4;
-}
+    * {
+        list-style: none;
+        margin: 0px !important;
+        padding: 0px !important;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
 
-.container {
-    display: flex;
-    width: 100%;
-}
+    body {
+        min-height: 100vh;
+        background: white;
+    }
 
-.sidebar {
-    width: 250px;
-    background-color: #003b5c;
-    color: white;
-    padding: 20px;
-}
+    .sidebar {
+        position: absolute;
+        width: 60px;
+        height: 100vh;
+        background: darkblue;
+        transition: .5s;
+        overflow: hidden;
+    }
 
-.logo h2 {
-    font-size: 1.4em;
-    margin-bottom: 20px;
-    line-height: 1.2;
-}
+    .sidebar:hover {
+        width: 200px;
+    }
+    .sidebar ul li:hover {
+        background: darkslateblue;
+    }
+    .sidebar ul li a {
+        display: flex;
+        white-space: nowrap;
+        text-decoration: none;
+    }
 
-.menu ul {
-    list-style: none;
-}
-
-.menu ul li {
-    margin: 15px 0;
-}
-
-.menu ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.1em;
-}
-
-.menu ul li.active a {
-    background-color: #1e6076;
-    padding: 10px 15px;
-    border-radius: 8px;
-}
-
-.content {
-    flex-grow: 1;
-    padding: 20px;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    font-size: 2em;
-    font-weight: normal;
-}
-
-.user-info {
-    text-align: right;
-}
-
-.user-info p {
-    font-size: 1.2em;
-}
-
-.user-info span {
-    display: block;
-    font-size: 0.9em;
-    color: gray;
-}
+    .sidebar ul li .icone {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        min-width: 60px;
+        height: 60px;
+        color: white;
+    }
+    .sidebar ul li .titulo {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 1rem;
+    }
+    .sidebar ul li.logo {
+        margin-bottom: 50px !important;
+    }
+    .sidebar ul li.logo:hover {
+        background: none;
+    }
+    .sidebar ul li.logo .icone {
+        font-size: 2rem;
+    }
+    .sidebar ul li.logo .titulo {
+        font-size: 1.2rem;
+    }
+    .sidebar ul li:last-of-type {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }

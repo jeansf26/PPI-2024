@@ -7,186 +7,171 @@
     }
 ?>
 
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
- <title>Cadastrar alunos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="style.css" rel="stylesheet">
 
- <!-- CCS, entendo pouco mas esta aí (Se possível até o final trocamos tudo por bootstrap) -->
-
-<style>
-
-* {box-sizing: border-box}
-
-.container {
-  padding: 16px;
-}
-
-input[type=text], input[type=password], input[type=date] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-.sendbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-.sendbtn:hover {
-  opacity:1;
-}
-
-a {
-  color: dodgerblue;
-}
-
-.signin {
-  background-color: #f1f1f1;
-  text-align: center;
-}
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
-
-</style>
-
-
-
+ <title>Cadastro de professores</title>
 </head>
+<body>
+<!-- Barra lateral -->
 
-<!-- Formulário de cadastro -->
+            <div class="sidebar">
+                <ul>
+                    <li class="logo">
+                        <a href="#">
+                            <span class="icone"></span>
+                            <span class="titulo">SGN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php">
+                            <span class="icone bi bi-house"></span>
+                            <span class="titulo">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CTD/pag_curso.php">
+                            <span class="icone bi bi-collection"></span>
+                            <span class="titulo">Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icone bi bi-person-circle"></span>
+                            <span class="titulo">Professores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pag_aluno.php">
+                            <span class="icone bi bi-globe"></span>
+                            <span class="titulo">Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pag_set.php">
+                            <span class="icone bi bi-calendar-week"></span>
+                            <span class="titulo">Setores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="confirm_logout.php">
+                            <span class="icone bi bi-box-arrow-left"></span>
+                            <span class="titulo">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-<form enctype="multipart/form-data" action="cadastro_aluno.php"  method="POST">
-  <div class="container">
-    <h1>Cadastrar alunos</h1>
-    <hr>
+<h2 style="margin-left: 210px !important;">Cadastro de Professores:</h2>
+<br>
 
-    <label for="name"><b>Nome</b></label>
-    <input type="text" placeholder="Digite o nome" name="name" id="name" required>
 
-    <label for="cpf"><b>CPF</b></label>
-    <input type="text" placeholder="Digite aqui" name="cpf" id="cpf" required>
+<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; overflow-y: scroll; height: 550px; ">
+        <form action="cadastro_aluno.php" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="name">Nome:</label>
+                <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="cpf">CPF:</label>
+                <input class="form-control py-1" type="text" id="cpf" name="cpf" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="mat">Número de Matrícula:</label>
+                <input class="form-control py-1" type="text" id="mat" name="mat" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="mail">E-mail:</label>
+                <input class="form-control py-1" type="text" id="mail" name="mail" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="gen">Gênero:</label>
+                <input class="form-control py-1" type="text" id="gen" name="gen" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="dat">Data de Nascimento:</label>
+                <input class="form-control py-1" type="date" id="dat" name="dat" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="cty">Cidade:</label>
+                <input class="form-control py-1" type="text" id="cty" name="cty" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="uf">UF:</label>
+                <input class="form-control py-1" type="text" id="uf" name="uf" placeholder="Digite aqui" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="rep">Reprovações:</label>
+                <input class="form-control py-1" type="number" id="rep" name="rep" placeholder="Digite aqui" required>
+            </div>
 
-    <label for="mat"><b>número de matrícula</b></label>
-    <input type="text" placeholder="Digite aqui" name="mat" id="mat" required>
-	
-	<label for="mail"><b>e-mail</b></label>
-    <input type="text" placeholder="Digite aqui" name="mail" id="mail" required>
-	
-	<label for="gen"><b>gênero</b></label>
-    <input type="text" placeholder="Digite aqui" name="gen" id="gen" required>
-	
-	<label for="dat"><b>Data de nascimento</b></label>
-    <input type="date" placeholder="Digite aqui" name="dat" id="dat" required>
-	
-	<label for="cty"><b>Cidade</b></label>
-    <input type="text" placeholder="Digite aqui" name="cty" id="cty" required>
-	
-	<label for="uf"><b>UF</b></label>
-    <input type="text" placeholder="Digite aqui" name="uf" id="uf" required>
-	
-	<label for="rep"><b>reprovações</b></label>
-    <input type="number" placeholder="Digite aqui" name="rep" id="rep" required>
-
-    <br><br>
-  <label for="acomp"><b>Acompanhamento:</b></label>
-    <input type="radio" id="acomp_sim" name="acomp" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="acomp_nao" name="acomp" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="aux_per"><b>Auxilio permanencia</b></label>
-    <input type="radio" id="aux_per_sim" name="aux_per" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="aux_per_nao" name="aux_per" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label>Apoio Psicológico:</label>
-    <input type="radio" id="psicologico_sim" name="ap_psic" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="psicologico_nao" name="ap_psic" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="cot"><b>Cotista</b></label>
-    <input type="radio" id="cot_sim" name="cot" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="cot_nao" name="cot" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="estag"><b>Estagio</b></label>
-    <input type="radio" id="estag_sim" name="estag" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="estag_nao" name="estag" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="inter"><b>Interno</b></label>
-    <input type="radio" id="inter_sim" name="inter" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="inter_nao" name="inter" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-
-	<label for="acomp_saude"><b>Acompanhamento de saúde</b></label>
-    <input type="radio" id="acomp_saude_sim" name="acomp_saude" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="acomp_saude_nao" name="acomp_saude" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-
-  <label for="proj_pesq"><b>Projeto de pesquisa</b></label>
-    <input type="radio" id="proj_pesq_sim" name="proj_pesq" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="proj_pesq_nao" name="proj_pesq" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="proj_ext"><b>Projeto de extensão</b></label>
-    <input type="radio" id="proj_ext_sim" name="proj_ext" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="proj_ext_nao" name="proj_ext" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-	
-	<label for="proj_ens"><b>Projeto de ensino</b></label>
-    <input type="radio" id="proj_ens_sim" name="proj_ens" value="1">
-    <label for="psicologico_sim">Sim</label>
-    <input type="radio" id="proj_ens_nao" name="proj_ens" value="0" checked>
-    <label for="psicologico_nao">Não</label><br><br>
-
-    <button type="submit" class="sendbtn">Enviar</button>
-  </div>
-
-</form> 
- 
-  <div class="container" style="background-color:#f1f1f1">
-    <button onclick="goBack()" class="cancelbtn">Cancel</button>
-	
-	<script>
+            <!-- Radios para opções Sim/Não -->
+            <div class="mb-3">
+                <label><b>Acompanhamento:</b></label><br>
+                <input type="radio" id="acomp_sim" name="acomp" value="1"> <label for="acomp_sim">Sim</label>
+                <input type="radio" id="acomp_nao" name="acomp" value="0" checked> <label for="acomp_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Auxílio Permanência:</b></label><br>
+                <input type="radio" id="aux_per_sim" name="aux_per" value="1"> <label for="aux_per_sim">Sim</label>
+                <input type="radio" id="aux_per_nao" name="aux_per" value="0" checked> <label for="aux_per_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Apoio Psicológico:</b></label><br>
+                <input type="radio" id="psicologico_sim" name="ap_psic" value="1"> <label for="psicologico_sim">Sim</label>
+                <input type="radio" id="psicologico_nao" name="ap_psic" value="0" checked> <label for="psicologico_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Cotista:</b></label><br>
+                <input type="radio" id="cot_sim" name="cot" value="1"> <label for="cot_sim">Sim</label>
+                <input type="radio" id="cot_nao" name="cot" value="0" checked> <label for="cot_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Estágio:</b></label><br>
+                <input type="radio" id="estag_sim" name="estag" value="1"> <label for="estag_sim">Sim</label>
+                <input type="radio" id="estag_nao" name="estag" value="0" checked> <label for="estag_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Interno:</b></label><br>
+                <input type="radio" id="inter_sim" name="inter" value="1"> <label for="inter_sim">Sim</label>
+                <input type="radio" id="inter_nao" name="inter" value="0" checked> <label for="inter_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Acompanhamento de Saúde:</b></label><br>
+                <input type="radio" id="acomp_saude_sim" name="acomp_saude" value="1"> <label for="acomp_saude_sim">Sim</label>
+                <input type="radio" id="acomp_saude_nao" name="acomp_saude" value="0" checked> <label for="acomp_saude_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Projeto de Pesquisa:</b></label><br>
+                <input type="radio" id="proj_pesq_sim" name="proj_pesq" value="1"> <label for="proj_pesq_sim">Sim</label>
+                <input type="radio" id="proj_pesq_nao" name="proj_pesq" value="0" checked> <label for="proj_pesq_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Projeto de Extensão:</b></label><br>
+                <input type="radio" id="proj_ext_sim" name="proj_ext" value="1"> <label for="proj_ext_sim">Sim</label>
+                <input type="radio" id="proj_ext_nao" name="proj_ext" value="0" checked> <label for="proj_ext_nao">Não</label>
+            </div>
+            <div class="mb-3">
+                <label><b>Auxílio Moradia:</b></label><br>
+                <input type="radio" id="aux_moradia_sim" name="aux_moradia" value="1"> <label for="aux_moradia_sim">Sim</label>
+                <input type="radio" id="aux_moradia_nao" name="aux_moradia" value="0" checked> <label for="aux_moradia_nao">Não</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary p-1">Enviar</button>
+            <button onclick="goBack()" class="btn btn-danger p-1">Cancel</button>
+        </form>
+    </div>
+  <script>
     function goBack() {
       window.history.back();
     }
   </script>
-  
-
-
+</body>
 </html>
-
-

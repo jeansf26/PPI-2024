@@ -17,6 +17,14 @@
 	 $ema = $_POST["mal"];
 	 $sen = $_POST["psw"];
 	 $tipo = "setor";
+	 $g_prof = isset($_POST['g_prof']) ? $_POST['g_prof'] : 0;
+	 $g_aluno = isset($_POST['g_aluno']) ? $_POST['g_aluno'] : 0;
+	 $g_emiss = isset($_POST['g_emiss']) ? $_POST['g_emiss'] : 0;
+	 $g_data = isset($_POST['g_data']) ? $_POST['g_data'] : 0;
+	 $g_orient = isset($_POST['g_orient']) ? $_POST['g_orient'] : 0;
+	 $g_obs = isset($_POST['g_obs']) ? $_POST['g_obs'] : 0;
+	 $g_nota = isset($_POST['g_nota']) ? $_POST['g_nota'] : 0;
+	 $g_falta = isset($_POST['g_falta']) ? $_POST['g_notas'] : 0;
 
 
 
@@ -56,7 +64,7 @@ else{
 
 		$senha_encriptada = md5($sen);
 
-			$sql = "INSERT INTO usuario_setor_professor_administrador (Nome,Email,Senha,Tipo_usuario) VALUES('{$nom}','{$ema}','{$senha_encriptada}','{$tipo}')" or die( mysql_error() );
+			$sql = "INSERT INTO usuario_setor_professor_administrador (Nome,Email,Senha,Tipo_usuario, Alt_list_prof, G_alunos, G_emiss, G_datas, G_orient, G_obs, G_notas, G_faltas) VALUES('{$nom}','{$ema}','{$senha_encriptada}','{$tipo}','{$g_prof}','{$g_aluno}','{$g_emiss}','{$g_data}','{$g_orient}','{$g_obs}','{$g_nota}','{$g_falta}')" or die( mysql_error() );
 
 			$salvar = mysqli_query($conn, $sql);
 

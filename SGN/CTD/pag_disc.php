@@ -49,49 +49,52 @@ $rowsx = $resultx->fetch_assoc()
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Barra lateral -->
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <a href="" class="d-block p-3 link-dark text-decoration-none" title="Iffar" data-bs-toggle="tooltip" data-bs-placement="right">
-                        <img class="ms-5 me-5" height="48" src="../if.png" alt="Iffar">
-                        <span class="visually-hidden">Iffar</span>
-                    </a>
-                    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
-                        <li class="nav-item">
-                            <a href="../index.php" class="nav-link py-3 border-bottom" aria-current="page" title="Início" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-house"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link py-3 active border-bottom" title="Turmas" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-collection"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../pag_prof.php" class="nav-link py-3 border-bottom" title="Professores" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-person-circle"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../pag_aluno.php" class="nav-link py-3 border-bottom" title="Alunos" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-globe"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../pag_set.php" class="nav-link py-3 border-bottom" title="Setores" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-calendar-week"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../confirm_logout.php" class="nav-link py-3 border-bottom" title="Logout" data-bs-toggle="tooltip" data-bs-placement="right">
-                                <i class="bi bi-box-arrow-left"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+    <div class="sidebar">
+                <ul>
+                    <li class="logo">
+                        <a href="#">
+                            <span class="icone"></span>
+                            <span class="titulo">SGN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.php">
+                            <span class="icone bi bi-house"></span>
+                            <span class="titulo">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icone bi bi-collection"></span>
+                            <span class="titulo">Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_prof.php">
+                            <span class="icone bi bi-person-circle"></span>
+                            <span class="titulo">Professores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_aluno.php">
+                            <span class="icone bi bi-globe"></span>
+                            <span class="titulo">Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_set.php">
+                            <span class="icone bi bi-calendar-week"></span>
+                            <span class="titulo">Setores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../confirm_logout.php">
+                            <span class="icone bi bi-box-arrow-left"></span>
+                            <span class="titulo">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             
             <!-- Conteúdo principal -->
              <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
