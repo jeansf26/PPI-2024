@@ -32,7 +32,18 @@
                 $sql = "DELETE FROM aluno WHERE CPF = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $CPF); //Dizem que isso evita SQL injection, espero que seja verdade
-                if ($stmt->execute()) {
+
+                //Excluindo a linha do aluno com a turma
+                $sql3 = "DELETE FROM turma_aluno WHERE CPF = ?";
+                $stmt3 = $conn->prepare($sql3);
+                $stmt3->bind_param("s", $CPF); 
+
+                //Excluindo a linha do aluno com suas disciplinas
+                $sql2 = "DELETE FROM disciplina_aluno WHERE CPF = ?";
+                $stmt2 = $conn->prepare($sql2);
+                $stmt2->bind_param("s", $CPF); 
+
+                if ($stmt->execute() and $stmt2->execute() and $stmt3->execute()) {
                     echo 'Aluno excluído com sucesso!';
                     header("Location: pag_aluno.php");
                 } else {

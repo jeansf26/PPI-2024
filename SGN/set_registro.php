@@ -43,7 +43,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="pag_prof.php">
                             <span class="icone bi bi-person-circle"></span>
                             <span class="titulo">Professores</span>
                         </a>

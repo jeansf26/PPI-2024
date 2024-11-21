@@ -1,10 +1,9 @@
-<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
-    session_start();
-    if (!isset($_SESSION["email"])) {
-        header("Location: ../f_login.php");
-        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
-    }
+session_start();
+if (!isset($_SESSION["email"])) {
+    header("Location: ../f_login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +20,6 @@
 <body>
     <div class="container">
         <?php
-        //Seleciona o usuário logado, conecta e tals
         include '../config.php';
 
         $conn = new mysqli($servername, $username, $password, $database);
@@ -31,60 +29,63 @@
         }
 
         if (isset($_GET['ID'])) {
-            $ID = intval($_GET['ID']); // Garante que o ID é um número inteiro
+            $ID = intval($_GET['ID']);
 
-            // Verifica se o formulário foi enviado
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Inicia uma transação
                 $conn->begin_transaction();
 
                 try {
-                    //Pega o ID da turma
-                    $sqlGetIDturma = "SELECT ID FROM turma WHERE idCurso = ?";
-                    $stmtGetIDturma = $conn->prepare($sqlGetIDturma);
-                    $stmtGetIDturma->bind_param("i", $ID);
-                    $stmtGetIDturma->execute();
-                    $result = $stmtGetIDturma->get_result();
-                    
-                    //Checa se foi um resultado válido, se sim armazena em uma variável
-                    if ($result->num_rows > 0) {
-                        $IDturmarow = $result->fetch_assoc();
-                        $IDturma = $IDturmarow['ID'];
+                    // Excluir relações disciplina_aluno para todas as disciplinas do curso
+                    $sql_get_disciplinas = "SELECT ID FROM disciplina WHERE idTurma IN (SELECT ID FROM turma WHERE idCurso = ?)";
+                    $stmt_get_disciplinas = $conn->prepare($sql_get_disciplinas);
+                    $stmt_get_disciplinas->bind_param("i", $ID);
+                    $stmt_get_disciplinas->execute();
+                    $result_disciplinas = $stmt_get_disciplinas->get_result();
 
-                        //Deleta as disciplinas que estão nas turmas correspondentes ao curso escolhido(Usando o ID da tuma pego antes)
-                        $sql_del_d = "DELETE FROM disciplina WHERE idTurma = ?";
-                        $stmt_d = $conn->prepare($sql_del_d);
-                        $stmt_d->bind_param("i", $IDturma);
-                        $stmt_d->execute();
+                    $sql_del_disciplina_aluno = "DELETE FROM disciplina_aluno WHERE ID = ?";
+                    $stmt_del_disciplina_aluno = $conn->prepare($sql_del_disciplina_aluno);
+
+                    while ($disciplina = $result_disciplinas->fetch_assoc()) {
+                        $stmt_del_disciplina_aluno->bind_param("i", $disciplina['ID']);
+                        $stmt_del_disciplina_aluno->execute();
                     }
 
-                    //Deleta o curso e as turmas correspondentes
-                    $sql_del_t = "DELETE FROM turma WHERE idCurso = ?";
-                    $stmt_t = $conn->prepare($sql_del_t);
-                    $stmt_t->bind_param("i", $ID);
-                    $stmt_t->execute();
+                    // Excluir todas as disciplinas associadas às turmas do curso
+                    $sql_del_disciplinas = "DELETE FROM disciplina WHERE idTurma IN (SELECT ID FROM turma WHERE idCurso = ?)";
+                    $stmt_del_disciplinas = $conn->prepare($sql_del_disciplinas);
+                    $stmt_del_disciplinas->bind_param("i", $ID);
+                    $stmt_del_disciplinas->execute();
 
-                    $sql_del_c = "DELETE FROM curso WHERE ID = ?";
-                    $stmt_c = $conn->prepare($sql_del_c);
-                    $stmt_c->bind_param("i", $ID);
-                    $stmt_c->execute();
+                    // Excluir todas as relações turma_aluno
+                    $sql_del_turma_aluno = "DELETE FROM turma_aluno WHERE ID IN (SELECT ID FROM turma WHERE idCurso = ?)";
+                    $stmt_del_turma_aluno = $conn->prepare($sql_del_turma_aluno);
+                    $stmt_del_turma_aluno->bind_param("i", $ID);
+                    $stmt_del_turma_aluno->execute();
 
-                    // Se tudo correu bem, confirma a transação
+                    // Excluir todas as turmas associadas ao curso
+                    $sql_del_turmas = "DELETE FROM turma WHERE idCurso = ?";
+                    $stmt_del_turmas = $conn->prepare($sql_del_turmas);
+                    $stmt_del_turmas->bind_param("i", $ID);
+                    $stmt_del_turmas->execute();
+
+                    // Excluir o curso
+                    $sql_del_curso = "DELETE FROM curso WHERE ID = ?";
+                    $stmt_del_curso = $conn->prepare($sql_del_curso);
+                    $stmt_del_curso->bind_param("i", $ID);
+                    $stmt_del_curso->execute();
+
                     $conn->commit();
 
-                    // Redireciona para a página anterior após a exclusão
                     echo "<script>
                             alert('Registro excluído com sucesso!');
-                            window.location.href = 'pag_curso.php'; // Redireciona para a página anterior
+                            window.location.href = 'pag_curso.php';
                           </script>";
                     exit();
                 } catch (Exception $e) {
-                    // Se algo deu errado, desfaz a transação
                     $conn->rollback();
                     echo 'Erro ao excluir o registro: ' . $e->getMessage();
                 }
             } else {
-                // Exibe o modal de confirmação
                 echo '
                 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -96,7 +97,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Tem certeza que deseja excluir este registro?</p>
+                                <p>Tem certeza que deseja excluir este curso e todos os registros associados?</p>
                             </div>
                             <div class="modal-footer">
                                 <form method="post" action="">
@@ -117,7 +118,6 @@
         } else {
             echo 'ID do registro não fornecido.';
         }
-
         ?>
     </div>
 </body>

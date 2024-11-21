@@ -52,6 +52,13 @@
                     $stmt_d->bind_param("i", $ID);
                     $stmt_d->execute();
 
+                    //Deleta a relação aluno e disciplina
+
+                    $sql_del_da = "DELETE FROM disciplina_aluno WHERE ID = ?";
+                    $stmt_da = $conn->prepare($sql_del_da);
+                    $stmt_da->bind_param("i", $ID);
+                    $stmt_da->execute();
+
                     // Se tudo correu bem, confirma a transação
                     $conn->commit();
 

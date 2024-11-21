@@ -111,6 +111,10 @@
                 <label class="form-label" for="rep">Reprovações:</label>
                 <input class="form-control py-1" type="number" id="rep" name="rep" placeholder="Digite aqui" required>
             </div>
+            <div class="mb-3">
+                <label class="form-label" for="turma">Turma:</label>
+                <input class="form-control py-1" type="text" id="turma" name="turma" placeholder="Digite aqui" required>
+            </div>
 
             <!-- Radios para opções Sim/Não -->
             <div class="mb-3">

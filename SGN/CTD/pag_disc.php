@@ -126,7 +126,7 @@ $rowsx = $resultx->fetch_assoc()
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
                             echo "<div class='col-4 p-3 border border-dark border-3 border-opacity-75 rounded-5 shadow-lg mb-3'>";
-                            echo "<a href='' class='nav-link'>";
+                            echo "<a href='../tabela_notas.php?ID=" . $row['ID'] . "' class='nav-link'>";
                             echo $row['Nome'];
                             echo "</a>";
                             echo "<div class= 'row'>";

@@ -9,7 +9,6 @@
 
 <?php
     //Seleciona o usuário logado, conecta e tals
-session_start();
 
     include ('../config.php');
 
@@ -37,8 +36,25 @@ else{
 
 			$salvar = mysqli_query($conn, $sql);
 
+			$ID_disc_query = "SELECT ID FROM disciplina WHERE Nome = '$nom' AND idTurma = '$ID' LIMIT 1";
+			$result_disc = mysqli_query($conn, $ID_disc_query);
 
+			if ($result_disc && $row_disc = mysqli_fetch_assoc($result_disc)) {
+			    $ID_disc = $row_disc['ID'];
 
+			    $sql_alunoturma = "SELECT CPF FROM turma_aluno WHERE ID = '$ID'";
+			    $result_alunoturma = mysqli_query($conn, $sql_alunoturma);
+
+			    if ($result_alunoturma && mysqli_num_rows($result_alunoturma) > 0) {
+
+			        while ($row = mysqli_fetch_assoc($result_alunoturma)) {
+			            $sql3 = "INSERT INTO disciplina_aluno (PPI, MC, AIA, Observacoes, AIS, Faltas, Nota1, Nota2, CPF, ID)
+			                     VALUES ('', '', '', '', '', '', '', '', '{$row['CPF']}', '$ID_disc')";
+			            $salvar3 = mysqli_query($conn, $sql3);
+			        }
+			    }
+
+			}
 
 
 						if (!$sql){

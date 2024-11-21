@@ -1,10 +1,10 @@
-<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
-    session_start();
-    if (!isset($_SESSION["email"])) {
-        header("Location: ../f_login.php");
-        exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
-    }
+// Checa se o usuário está logado, evitando alterações por invasores
+session_start();
+if (!isset($_SESSION["email"])) {
+    header("Location: ../f_login.php");
+    exit(); // Garante que o script pare de executar
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Excluir Turma</title>    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Excluir Turma</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -20,7 +21,6 @@
 <body>
     <div class="container">
         <?php
-        //Seleciona o usuário logado, conecta e tals
         include '../config.php';
 
         $conn = new mysqli($servername, $username, $password, $database);
@@ -32,7 +32,7 @@
         if (isset($_GET['ID'])) {
             $ID = intval($_GET['ID']); 
 
-            //Aqui ele pega o id que será necessário para voltar para a turma correta
+            // Pega o ID do curso para redirecionamento
             $ID_return = "SELECT idCurso FROM turma WHERE ID = ?";
             $stmtID_return = $conn->prepare($ID_return);
             $stmtID_return->bind_param("i", $ID);
@@ -42,32 +42,55 @@
 
             // Verifica se o formulário foi enviado
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Inicia uma transação
                 $conn->begin_transaction();
 
                 try {
-                    //Deletando a turma e suas disciplinas correspondentes
+                    // Pega todos os IDs das disciplinas associadas à turma
+                    $sql_get_id_d = "SELECT ID FROM disciplina WHERE idTurma = ?";
+                    $stmt_get_id_d = $conn->prepare($sql_get_id_d);
+                    $stmt_get_id_d->bind_param("i", $ID); 
+                    $stmt_get_id_d->execute();
+                    $result_d = $stmt_get_id_d->get_result();
+
+                    // Exclui as relações de todas as disciplinas encontradas
+                    $sql_del_da = "DELETE FROM disciplina_aluno WHERE ID = ?";
+                    $stmt_da = $conn->prepare($sql_del_da);
+
+                    while ($row_d = $result_d->fetch_assoc()) {
+                        $ID_da = $row_d['ID'];
+                        $stmt_da->bind_param("i", $ID_da);
+                        $stmt_da->execute();
+                    }
+
+                    // Exclui todas as disciplinas associadas à turma
                     $sql_del_d = "DELETE FROM disciplina WHERE idTurma = ?";
                     $stmt_d = $conn->prepare($sql_del_d);
                     $stmt_d->bind_param("i", $ID); 
                     $stmt_d->execute();
 
+                    // Exclui a turma
                     $sql_del_t = "DELETE FROM turma WHERE ID = ?";
                     $stmt_t = $conn->prepare($sql_del_t);
                     $stmt_t->bind_param("i", $ID);
                     $stmt_t->execute();
 
-                    // Se tudo correu bem, confirma a transação
+                    // Exclui relações de alunos com a turma
+                    $sql_del_ta = "DELETE FROM turma_aluno WHERE ID = ?";
+                    $stmt_ta = $conn->prepare($sql_del_ta);
+                    $stmt_ta->bind_param("i", $ID);
+                    $stmt_ta->execute();
+
+                    // Confirma a transação
                     $conn->commit();
 
                     // Redireciona para a página anterior após a exclusão
                     echo "<script>
                             alert('Registro excluído com sucesso!');
-                            window.location.href = 'pag_turma.php?ID=" . $ID_returnrow['idCurso'] . "'; // Redireciona para a página anterior
+                            window.location.href = 'pag_turma.php?ID=" . $ID_returnrow['idCurso'] . "';
                           </script>";
                     exit();
                 } catch (Exception $e) {
-                    // Se algo deu errado, desfaz a transação
+                    // Desfaz a transação em caso de erro
                     $conn->rollback();
                     echo 'Erro ao excluir o registro: ' . $e->getMessage();
                 }
