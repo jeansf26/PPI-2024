@@ -104,7 +104,7 @@ $rowsx = $resultx->fetch_assoc()
                 ?>
                 
                 <!-- Exibição dos alunos -->
-                <div style="height: 500px; overflow-y: scroll;">
+                <div>
                     <?php 
                     // Seleciona todos os alunos
                     $sql = "SELECT * FROM aluno";

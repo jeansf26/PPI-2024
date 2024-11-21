@@ -73,7 +73,7 @@
 <br>
 
 
-<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; overflow-y: scroll; height: 550px; ">
+<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%;">
         <form action="cadastro_set.php" method="post">
             <div class="mb-3">
                 <label class="form-label" for="name">Nome:</label>

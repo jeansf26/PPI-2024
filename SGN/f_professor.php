@@ -71,7 +71,7 @@
 
 <h2 style="margin-left: 210px !important;">Cadastro de Professores:</h2>
 <br>
-<div class="container " style="margin-left: 210px !important; font-size: 1.3rem;">
+<div class="container " style="margin-left: 210px !important; font-size: 1.3rem; width: 80%;">
         <form action="cadastro_prof.php" method="post">
             <div class="mb-3">
                 <label class="form-label" for="name">Nome:</label>

@@ -43,13 +43,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="pag_prof.php">
                             <span class="icone bi bi-person-circle"></span>
                             <span class="titulo">Professores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="pag_aluno.php">
+                        <a href="">
                             <span class="icone bi bi-globe"></span>
                             <span class="titulo">Alunos</span>
                         </a>
@@ -69,11 +69,11 @@
                 </ul>
             </div>
 
-<h2 style="margin-left: 210px !important;">Cadastro de Professores:</h2>
+<h2 style="margin-left: 210px !important;">Cadastro de Alunos:</h2>
 <br>
 
 
-<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; overflow-y: scroll; height: 550px; ">
+<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%; ">
         <form action="cadastro_aluno.php" method="post">
             <div class="mb-3">
                 <label class="form-label" for="name">Nome:</label>

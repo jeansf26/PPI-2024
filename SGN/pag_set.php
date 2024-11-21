@@ -100,7 +100,7 @@ $rowsx = $resultx->fetch_assoc()
             ?>
                 
                 <!-- Exibição dos Setores -->
-                <div style="height: 500px; overflow-y: scroll;">
+                <div>
                     <?php 
                     // Seleciona todos os setores
                     $sql = "SELECT * FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'setor'";

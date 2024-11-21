@@ -101,7 +101,7 @@ $rowsx = $resultx->fetch_assoc()
             ?>
                 
                 <!-- Exibição dos Professores -->
-                <div style="height: 500px; overflow-y: scroll;">
+                <div>
                     <?php 
                     // Seleciona todos os professores
                     $sql = "SELECT * FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'prof'";

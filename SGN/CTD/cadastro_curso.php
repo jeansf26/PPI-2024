@@ -10,7 +10,6 @@
 <?php
     //Seleciona o usuário logado, conecta e tals
 
-session_start(); 
 
     include ('../config.php');
 

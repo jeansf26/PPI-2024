@@ -1,7 +1,7 @@
 <!-- Simplesmente o formulário de login -->
 
 <!DOCTYPE html>
-<html lang="pt-br" data-bs-theme="dark">
+<html lang="pt-br" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +14,23 @@
 <body class="d-flex align-items-center bg-body-tertiary">
     <main class="w-100 mx-auto form-container">
         <form action="login.php" method="post">
-            <img src="if.png" class="mb-3" style="height: 110px;" />
-            <h1 class="h3 mb-3">Login</h1>
+            <img src="logo.png" class="mb-3" style="height: 110px;"/>
+            <h1 style="color: darkblue;" class="h3 mb-3">Login</h1>
             <div class="form-floating">
-                <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Endereço de email</label>
+                <input style="border-color: darkblue;" name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label style="color: darkblue;" for="floatingInput">Endereço de email</label>
               </div>
               <div class="form-floating">
-                <input name="senha" type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Senha</label>
+                <input style="border-color: darkblue;" name="senha" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label style="color: darkblue;" for="floatingPassword">Senha</label>
               </div>
           
-              <div class="checkbox mb-3">
+              <div style="border-color: darkblue; color: darkblue;" class="checkbox mb-3">
                 <label>
                   <input type="checkbox" value="remember-me"> Lembrar de mim
                 </label>
               </div>
-              <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+              <button style="color: darkblue; border-color: darkblue;" class="w-100 btn btn-lg" type="submit">Login</button>
         </form>
     </main>
 </body>

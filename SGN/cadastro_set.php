@@ -24,7 +24,7 @@
 	 $g_orient = isset($_POST['g_orient']) ? $_POST['g_orient'] : 0;
 	 $g_obs = isset($_POST['g_obs']) ? $_POST['g_obs'] : 0;
 	 $g_nota = isset($_POST['g_nota']) ? $_POST['g_nota'] : 0;
-	 $g_falta = isset($_POST['g_falta']) ? $_POST['g_notas'] : 0;
+	 $g_falta = isset($_POST['g_falta']) ? $_POST['g_falta'] : 0;
 
 
 
