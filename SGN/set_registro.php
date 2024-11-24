@@ -26,7 +26,11 @@
                 <ul>
                     <li class="logo">
                         <a href="#">
-                            <span class="icone"></span>
+                            <span class="icone">
+                                <div class="imgCaixa align-items-center">
+                                    <img style="width: 50px;" src="logo.png" alt="...">
+                                </div>
+                            </span>
                             <span class="titulo">SGN</span>
                         </a>
                     </li>

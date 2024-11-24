@@ -5,6 +5,21 @@
         header("Location: f_login.php");
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
     }
+
+    include ('config.php');
+
+    $sql = "SELECT ID, Nome FROM turma";
+    $result = $conn->query($sql);
+
+    $turmas = [];
+    
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $turmas[] = $row;
+        }
+    }
+
+    $conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +32,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="style.css" rel="stylesheet">
 
- <title>Cadastro de professores</title>
+ <title>Cadastro de alunos</title>
 </head>
 <body>
 <!-- Barra lateral -->
@@ -26,7 +41,11 @@
                 <ul>
                     <li class="logo">
                         <a href="#">
-                            <span class="icone"></span>
+                            <span class="icone">
+                                <div class="imgCaixa align-items-center">
+                                    <img style="width: 50px;" src="logo.png" alt="...">
+                                </div>
+                            </span>
                             <span class="titulo">SGN</span>
                         </a>
                     </li>
@@ -113,7 +132,12 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="turma">Turma:</label>
-                <input class="form-control py-1" type="text" id="turma" name="turma" placeholder="Digite aqui" required>
+                <select class="form-select py-1" id="turma" name="turma" required>
+                    <option value="" disabled selected>Selecione uma turma</option>
+                    <?php foreach ($turmas as $turma): ?>
+                        <option value="<?= htmlspecialchars($turma['ID']) ?>"><?= htmlspecialchars($turma['Nome']) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <!-- Radios para opções Sim/Não -->
@@ -161,11 +185,6 @@
                 <label><b>Projeto de Extensão:</b></label><br>
                 <input type="radio" id="proj_ext_sim" name="proj_ext" value="1"> <label for="proj_ext_sim">Sim</label>
                 <input type="radio" id="proj_ext_nao" name="proj_ext" value="0" checked> <label for="proj_ext_nao">Não</label>
-            </div>
-            <div class="mb-3">
-                <label><b>Auxílio Moradia:</b></label><br>
-                <input type="radio" id="aux_moradia_sim" name="aux_moradia" value="1"> <label for="aux_moradia_sim">Sim</label>
-                <input type="radio" id="aux_moradia_nao" name="aux_moradia" value="0" checked> <label for="aux_moradia_nao">Não</label>
             </div>
             
             <button type="submit" class="btn btn-primary p-1">Enviar</button>

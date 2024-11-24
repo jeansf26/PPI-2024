@@ -8,85 +8,103 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Editar Turma</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="../style.css" rel="stylesheet">
 
-
-    <style>
-        * {box-sizing: border-box}
-        .container {padding: 16px;}
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: none;
-            background: #f1f1f1;
-        }
-        input[type=text]:focus, input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-        hr {border: 1px solid #f1f1f1; margin-bottom: 25px;}
-        .registerbtn {
-            background-color: #04AA6D;
-            color: white;
-            padding: 16px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            opacity: 0.9;
-        }
-        .registerbtn:hover {opacity:1;}
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-        }
-    </style>
+ <title>Edição de turma</title>
 </head>
 <body>
-    <div class="container">
+<!-- Barra lateral -->
+
+            <div class="sidebar">
+                <ul>
+                    <li class="logo">
+                        <a href="#">
+                            <span class="icone">
+                                <div class="imgCaixa align-items-center">
+                                    <img style="width: 50px;" src="../logo.png" alt="...">
+                                </div>
+                            </span>
+                            <span class="titulo">SGN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.php">
+                            <span class="icone bi bi-house"></span>
+                            <span class="titulo">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icone bi bi-collection"></span>
+                            <span class="titulo">Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_prof.php">
+                            <span class="icone bi bi-person-circle"></span>
+                            <span class="titulo">Professores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_aluno.php">
+                            <span class="icone bi bi-globe"></span>
+                            <span class="titulo">Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_set.php">
+                            <span class="icone bi bi-calendar-week"></span>
+                            <span class="titulo">Setores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../confirm_logout.php">
+                            <span class="icone bi bi-box-arrow-left"></span>
+                            <span class="titulo">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container">
+
         <?php
-        //Seleciona o usuário logado, conecta e tals
-        include '../config.php'; 
+        include '../config.php';
 
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
-        //Aqui ele pega o id que será necessário para voltar para a turma correta
-        $ID_return = "SELECT idCurso FROM turma WHERE ID = ?";
-        $stmtID_return = $conn->prepare($ID_return);
-        $stmtID_return->bind_param("i", $ID);
-        $stmtID_return->execute();
-        $result = $stmtID_return->get_result();
-        $ID_returnrow = $result->fetch_assoc();
-
-            //Verifica se o formulário de edição foi recebido
+            //Verifica se o formulário de edição foi enviado
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                //Recebe os dados do formulário
+                
+                // Recebe os dados do formulário
                 $name = $_POST['name'];
                 $data = $_POST['entrega'];
 
-                //Atualiza os dados no banco de dados
-                $sql = "UPDATE turma SET Nome=?, Data_entrega=? WHERE ID=?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssi", $name, $data, $ID);
+                // Atualiza os dados no banco de dados
+                $sql_u = "UPDATE turma SET Nome=?, Data_entrega=? WHERE ID=?";
+                $stmt_u = $conn->prepare($sql_u);
+                $stmt_u->bind_param("ssi", $name, $data, $ID);
 
-                if ($stmt->execute()) {
-                    echo '<div class="alert alert-success">Turma atualizada com sucesso!</div>';
-                } else {
-                    echo '<div class="alert alert-danger">Erro ao atualizar Turma: ' . $stmt->error . '</div>';
+                if ($stmt_u->execute()) { ?>
+                    <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript"> 
+                        alert("Turma atualizada com sucesso!");
+                        window.history.go(-2);
+                    </SCRIPT>
+                <?php
+                } else { ?>
+                    <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript"> 
+                        alert("Erro ao atualizar Turma.");
+                    </SCRIPT>
+                <?php
                 }
-                $stmt->close();
+                $stmt_u->close();
             } else {
                 // Carrega os dados atuais do professor
                 $sql = "SELECT * FROM turma WHERE ID=?";
@@ -99,16 +117,22 @@
                 if ($row) {
                     // Exibe o formulário com os dados do professor
                     echo '
-                    <h1>Editar Turma</h1>
-                    <p>Atualize as informações do professor abaixo.</p>
-                    <hr>
-                    <form method="POST" action="">
-                        <label for="name"><b>Nome</b></label>
-                        <input type="text" placeholder="Digite o nome" name="name" id="name" value="' . htmlspecialchars($row['Nome']) . '" required>
-                        <label for="entrega"><b>Data de entrega de notas</b></label>
-                        <input type="date" placeholder="Digite o nome" name="entrega" id="entrega" value="' . htmlspecialchars($row['Nome']) . '" >
-                        <button type="submit" class="registerbtn">Atualizar</button>
+                    <h2 style="margin-left: 210px !important;">Editar turma:</h2>
+                    <br>
+                    <div class="container " style="margin-left: 210px !important; font-size: 1.3rem; width: 80%;">
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nome:</label>
+                            <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" value="' . htmlspecialchars($row['Nome']) . '">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="entrega">Data de entrega:</label>
+                            <input class="form-control py-1" type="date" id="entrega" name="entrega" placeholder="" value="' . htmlspecialchars($row['Data_entrega']) . '">
+                        </div>
+                        <button class="btn btn-primary p-1" type="submit">Enviar</button>
                     </form>
+                    <button onclick="goBack()" class="btn btn-danger mt-3 p-1">Cancel</button>
+                    </div>
                     ';
                 } else {
                     echo '<div class="alert alert-danger">Turma não encontrada.</div>';
@@ -116,12 +140,15 @@
                 $stmt->close();
             }
         } else {
-            echo '<div class="alert alert-danger">Matrícula não fornecida.</div>';
+            echo '<div class="alert alert-danger">Turma não encontrada.</div>';
         }
         ?>
-        <div class="container" style="background-color:#f1f1f1">
-            <button onclick="window.location.href='pag_turma.php?ID=<?php echo $ID_returnrow['idCurso']; ?>'" class="cancelbtn">Cancelar</button>
-        </div>
     </div>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
+
 </html>

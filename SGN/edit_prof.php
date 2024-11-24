@@ -6,52 +6,74 @@
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
     }
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Editar Professor</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        * {box-sizing: border-box}
-        .container {padding: 16px;}
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: none;
-            background: #f1f1f1;
-        }
-        input[type=text]:focus, input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-        hr {border: 1px solid #f1f1f1; margin-bottom: 25px;}
-        .registerbtn {
-            background-color: #04AA6D;
-            color: white;
-            padding: 16px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            opacity: 0.9;
-        }
-        .registerbtn:hover {opacity:1;}
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="style.css" rel="stylesheet">
+
+ <title>Edição de professores</title>
 </head>
 <body>
-    <div class="container">
+<!-- Barra lateral -->
+
+            <div class="sidebar">
+                <ul>
+                    <li class="logo">
+                        <a href="#">
+                            <span class="icone">
+                                <div class="imgCaixa align-items-center">
+                                    <img style="width: 50px;" src="logo.png" alt="...">
+                                </div>
+                            </span>
+                            <span class="titulo">SGN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php">
+                            <span class="icone bi bi-house"></span>
+                            <span class="titulo">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="CTD/pag_curso.php">
+                            <span class="icone bi bi-collection"></span>
+                            <span class="titulo">Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icone bi bi-person-circle"></span>
+                            <span class="titulo">Professores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pag_aluno.php">
+                            <span class="icone bi bi-globe"></span>
+                            <span class="titulo">Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pag_set.php">
+                            <span class="icone bi bi-calendar-week"></span>
+                            <span class="titulo">Setores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="confirm_logout.php">
+                            <span class="icone bi bi-box-arrow-left"></span>
+                            <span class="titulo">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="container">
+
         <?php
         include 'config.php';
 
@@ -65,16 +87,35 @@
                 $name = $_POST['name'];
                 $mail = $_POST['mail'];
                 $psw = $_POST['psw'];
+                if (empty($psw) or is_null($psw)) {
+                    $sql_s = "SELECT * FROM usuario_setor_professor_administrador WHERE ID=?";
+                    $stmt_s = $conn->prepare($sql_s);
+                    $stmt_s->bind_param("s", $ID);
+                    $stmt_s->execute();
+                    $result_s = $stmt_s->get_result();
+                    $row_s = $result_s->fetch_assoc();
+                    $psw = $row_s['Senha'];
+                }
+                else {
+                    $psw = md5($_POST['psw']);
+                }
 
                 // Atualiza os dados no banco de dados
                 $sql = "UPDATE usuario_setor_professor_administrador SET Nome=?, Email=?, Senha=? WHERE ID=?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("ssss", $name, $mail, $psw, $ID);
 
-                if ($stmt->execute()) {
-                    echo '<div class="alert alert-success">Professor atualizado com sucesso!</div>';
-                } else {
-                    echo '<div class="alert alert-danger">Erro ao atualizar professor: ' . $stmt->error . '</div>';
+                if ($stmt->execute()) { ?>
+                    <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript"> 
+                        alert("Professor atualizado com sucesso!");
+                        window.location.href = "pag_prof.php";
+                    </SCRIPT>
+                <?php
+                } else { ?>
+                    <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript"> 
+                        alert("Erro ao atualizar Professor.");
+                    </SCRIPT>
+                <?php
                 }
                 $stmt->close();
             } else {
@@ -89,18 +130,30 @@
                 if ($row) {
                     // Exibe o formulário com os dados do professor
                     echo '
-                    <h1>Editar Professor</h1>
-                    <p>Atualize as informações do professor abaixo.</p>
-                    <hr>
-                    <form method="POST" action="">
-                        <label for="name"><b>Nome</b></label>
-                        <input type="text" placeholder="Digite o nome" name="name" id="name" value="' . htmlspecialchars($row['Nome']) . '" required>
-                        <label for="mail"><b>Email</b></label>
-                        <input type="text" placeholder="Digite o email" name="mail" id="mail" value="' . htmlspecialchars($row['Email']) . '" required>
-                        <label for="psw"><b>Senha</b></label>
-                        <input type="password" placeholder="Digite a senha" name="psw" id="psw" required>
-                        <button type="submit" class="registerbtn">Atualizar</button>
+                    <h2 style="margin-left: 210px !important;">Editar Professores:</h2>
+                    <br>
+                    <div class="container " style="margin-left: 210px !important; font-size: 1.3rem; width: 80%;">
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nome:</label>
+                            <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" value="' . htmlspecialchars($row['Nome']) . '">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="mal">Email:</label>
+                            <input class="form-control py-1" type="text" id="mail" name="mail" placeholder="Digite o email" value="' . htmlspecialchars($row['Email']) . '">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="psw">Senha:</label>
+                            <input class="form-control py-1" type="password" id="psw" name="psw" placeholder="Digite a senha se deseja alterá-la">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="mat">Matricula SIAPE:</label>
+                            <input class="form-control py-1" type="text" id="mat" name="mat" placeholder="Digite a matrícula" value="' . htmlspecialchars($row['MatriculaSiape']) . '">
+                        </div>
+                        <button class="btn btn-primary p-1" type="submit">Enviar</button>
                     </form>
+                    <button onclick="goBack()" class="btn btn-danger mt-3 p-1">Cancel</button>
+                    </div>
                     ';
                 } else {
                     echo '<div class="alert alert-danger">Professor não encontrado.</div>';
@@ -108,12 +161,14 @@
                 $stmt->close();
             }
         } else {
-            echo '<div class="alert alert-danger">Matrícula não fornecida.</div>';
+            echo '<div class="alert alert-danger">Professor não encontrado.</div>';
         }
         ?>
-        <div class="container" style="background-color:#f1f1f1">
-            <button onclick="window.location.href='pag_prof.php'" class="cancelbtn">Cancelar</button>
-        </div>
     </div>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>

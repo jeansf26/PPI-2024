@@ -2,105 +2,95 @@
 <?php
     session_start();
     if (!isset($_SESSION["email"])) {
-        header("Location: ../f_login.php");
+        header("Location: f_login.php");
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
     }
 ?>
 
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
- <title>Cadastro de cursos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="../style.css" rel="stylesheet">
 
-<!-- CCS, entendo pouco mas esta aí (Se possível até o final trocamos tudo por bootstrap) -->
-
-<style>
-
-* {box-sizing: border-box}
-
-
-.container {
-  padding: 16px;
-}
-
-input[type=text], input[type=password], input[type=date] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-.registerbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-.registerbtn:hover {
-  opacity:1;
-}
-
-a {
-  color: dodgerblue;
-}
-
-.signin {
-  background-color: #f1f1f1;
-  text-align: center;
-}
-
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
-
-</style>
-
-
-
+ <title>Cadastro de Cursos</title>
 </head>
+<body>
+<!-- Barra lateral -->
 
-<!-- Formulário de cadastro -->
-<form action="cadastro_curso.php" method="post">
-  <div class="container">
-    <h1>Cadastro de cursos</h1>
-    <hr>
+            <div class="sidebar">
+                <ul>
+                    <li class="logo">
+                        <a href="#">
+                            <span class="icone">
+                                <div class="imgCaixa align-items-center">
+                                    <img style="width: 50px;" src="../logo.png" alt="...">
+                                </div>
+                            </span>
+                            <span class="titulo">SGN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.php">
+                            <span class="icone bi bi-house"></span>
+                            <span class="titulo">Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../CTD/pag_curso.php">
+                            <span class="icone bi bi-collection"></span>
+                            <span class="titulo">Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_prof.php">
+                            <span class="icone bi bi-person-circle"></span>
+                            <span class="titulo">Professores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_aluno.php">
+                            <span class="icone bi bi-globe"></span>
+                            <span class="titulo">Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pag_set.php">
+                            <span class="icone bi bi-calendar-week"></span>
+                            <span class="titulo">Setores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../confirm_logout.php">
+                            <span class="icone bi bi-box-arrow-left"></span>
+                            <span class="titulo">Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-    <label for="name"><b>Nome</b></label>
-    <input type="text" placeholder="Enter name" name="name" id="name" required>
-	
+<h2 style="margin-left: 210px !important;">Cadastro de Curso:</h2>
+<br>
 
-    <button type="submit" class="registerbtn">Enviar</button>
-  </div>
 
-  
-  <div class="container" style="background-color:#f1f1f1">
-    <button onclick="goBack()" class="cancelbtn">Cancel</button>
-	
-	<script>
+<div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%; ">
+        <form action="cadastro_curso.php" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="name">Nome:</label>
+                <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary p-1">Enviar</button>
+            <button onclick="goBack()" class="btn btn-danger p-1">Cancel</button>
+        </form>
+    </div>
+  <script>
     function goBack() {
       window.history.back();
     }
   </script>
-  
-</form>
-
-</html>
+</body>
