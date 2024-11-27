@@ -75,7 +75,7 @@
 
 <h2 style="margin-left: 210px !important;">Cadastro de Setores:</h2>
 <br>
-
+<!-- Formulário de cadastro -->
 
 <div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%;">
         <form action="cadastro_set.php" method="post">
@@ -92,7 +92,7 @@
                 <input class="form-control py-1" type="password" id="psw" name="psw" placeholder="Digite a senha" required>
             </div>
 
-            <!-- Radios para opções Sim/Não -->
+            <!-- opções Sim/Não -->
             <div class="mb-3">
                 <label><b>Gerenciar professores:</b></label><br>
                 <input type="radio" id="g_prof_sim" name="g_prof" value="1"> <label for="g_prof_sim">Sim</label>

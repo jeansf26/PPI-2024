@@ -74,7 +74,7 @@
                 }
                 $stmt->close();
             } else {
-                // Carrega os dados atuais do professor
+                // Carrega os dados atuais do setor
                 $sql = "SELECT * FROM usuario_setor_professor_administrador WHERE ID=?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $ID);
@@ -83,7 +83,7 @@
                 $row = $result->fetch_assoc();
 
                 if ($row) {
-                    // Exibe o formulário com os dados do professor
+                    // Exibe o formulário com os dados do setor
                     echo '
                     <!DOCTYPE html>
             <html lang="pt-br">

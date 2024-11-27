@@ -80,6 +80,8 @@
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
+            //Faz uma consulta e armazena ID e Nome de cada professor em uma lista
+
             $sql = "SELECT ID, Nome FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'prof'";
             $result = $conn->query($sql);
 
@@ -90,6 +92,8 @@
                     $profs[] = $row;
                 }
             }
+
+            //Seleciona o id do professor que da aula na disciplina
 
             $sql_p = "SELECT idProfessor FROM leciona WHERE ID=?";
             $stmt_p = $conn->prepare($sql_p);
@@ -133,7 +137,7 @@
                 }
                 $stmt->close();
             } else {
-                // Carrega os dados atuais do professor
+                // Carrega os dados atuais da disciplina
                 $sql = "SELECT * FROM disciplina WHERE ID=?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $ID);
@@ -142,7 +146,7 @@
                 $row = $result->fetch_assoc();
 
                 if ($row) {
-                    // Exibe o formulário com os dados do professor
+                    // Exibe o formulário com os dados da disciplina
                     echo '
                     <h2 style="margin-left: 210px !important;">Editar disciplina:</h2>
                     <br>

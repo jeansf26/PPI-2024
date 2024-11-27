@@ -85,6 +85,7 @@
 <h2 style="margin-left: 210px !important;">Cadastro de Turma:</h2>
 <br>
 
+<!-- Formulário de cadastro -->
 
 <div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%; ">
         <form action="cadastro_turma.php" method="post">

@@ -6,6 +6,8 @@
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
     }
 
+    //Seleciona todas as turmas, depois elas vão aparecer como opção ao cadastrar o aluno
+
     include ('config.php');
 
     $sql = "SELECT ID, Nome FROM turma";
@@ -91,6 +93,7 @@
 <h2 style="margin-left: 210px !important;">Cadastro de Alunos:</h2>
 <br>
 
+<!-- Formulário de cadastro -->
 
 <div class="container" style="margin-left: 210px !important; font-size: 1.3rem; width: 80%; ">
         <form action="cadastro_aluno.php" method="post">
@@ -140,7 +143,7 @@
                 </select>
             </div>
 
-            <!-- Radios para opções Sim/Não -->
+            <!-- opções Sim/Não -->
             <div class="mb-3">
                 <label><b>Acompanhamento:</b></label><br>
                 <input type="radio" id="acomp_sim" name="acomp" value="1"> <label for="acomp_sim">Sim</label>
@@ -191,6 +194,7 @@
             <button onclick="goBack()" class="btn btn-danger p-1">Cancel</button>
         </form>
     </div>
+    <!-- Função de retorno -->
   <script>
     function goBack() {
       window.history.back();

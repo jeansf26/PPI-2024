@@ -1,3 +1,4 @@
+<!--Checa se o usuário está logado, evitando alterações por invasores-->
 <?php
 session_start();
 if (!isset($_SESSION["email"])) {
@@ -9,6 +10,9 @@ include 'config.php';
 
 if (isset($_GET['CPF'])) {
     $CPF = $_GET['CPF'];
+
+    //Um monte de consultas ao banco de dados para pegar o id da turma que o aluno está
+
     $sql_ta = "SELECT ID FROM turma_aluno WHERE CPF=?";
     $stmt_ta = $conn->prepare($sql_ta);
     $stmt_ta->bind_param("s", $CPF);
@@ -34,19 +38,23 @@ if (isset($_GET['CPF'])) {
         $rep = $_POST['rep'];
         $turma = $_POST['turma'];
 
-        //Um monte de consultas ao banco de dados para pegar o nome da turma que o aluno está
-
         
-        if ($ID_t != $turma) {
-            $sql_t = "SELECT Nome FROM turma WHERE ID=?";
-            $stmt_t = $conn->prepare($sql_t);
-            $stmt_t->bind_param("s", $ID_t);
-            $stmt_t->execute();
-            $result_t = $stmt_t->get_result();
-            $row_t = $result_t->fetch_assoc();
+        $sql_t = "SELECT Nome FROM turma WHERE ID=?";
+        $stmt_t = $conn->prepare($sql_t);
+        $stmt_t->bind_param("s", $ID_t);
+        $stmt_t->execute();
+        $result_t = $stmt_t->get_result();
+        $row_t = $result_t->fetch_assoc();
 
+        if (empty($row_t['Nome']) or is_null($row_t['Nome'])) {
+            $turma_atual = '';
+        } else {
+            $turma_atual = $row_t['Nome'];
+        }
 
-            if ($turma != $row_t['Nome']) {
+        //Verifica se a turma escolhida no formulário é diferente da que o aluno está
+
+            if ($turma != $turma_atual) {
 
                 //Excluindo a linha do aluno com a turma
                 $sql_apagar1 = "DELETE FROM turma_aluno WHERE CPF = ?";
@@ -86,7 +94,7 @@ if (isset($_GET['CPF'])) {
                     }
                 }
             }
-        }
+        
         $acomp = $_POST['acomp'];
         $aux_per = $_POST['aux_per'];
         $ap_psic = $_POST['ap_psic'];

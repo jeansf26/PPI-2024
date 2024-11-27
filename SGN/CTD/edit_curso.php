@@ -105,7 +105,7 @@
                 }
                 $stmt->close();
             } else {
-                // Carrega os dados atuais do professor
+                // Carrega os dados atuais do curso
                 $sql = "SELECT * FROM curso WHERE ID=?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("s", $ID);
@@ -114,7 +114,7 @@
                 $row = $result->fetch_assoc();
 
                 if ($row) {
-                    // Exibe o formulário com os dados do professor
+                    // Exibe o formulário com os dados do curso
                     echo '
                     <h2 style="margin-left: 210px !important;">Editar curso:</h2>
                     <br>

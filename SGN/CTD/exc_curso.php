@@ -35,7 +35,7 @@ if (!isset($_SESSION["email"])) {
                 $conn->begin_transaction();
 
                 try {
-                    // Iniciar transação
+
                     $conn->begin_transaction();
 
                     // Seleciona disciplinas associadas ao curso

@@ -11,7 +11,7 @@ include "config.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
     $cpf = $_POST['save'];
 
-    // Sanitização e validação dos dados
+    // validação dos dados
     $ppi = max(0, min(10, floatval($_POST['PPI'][$cpf])));
     $ais = max(0, min(10, floatval($_POST['AIS'][$cpf])));
     $mc = max(0, min(10, floatval($_POST['MC'][$cpf])));
@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
     $faltas = intval($_POST['Faltas'][$cpf]); // Apenas inteiros para faltas
     $observacoes = htmlspecialchars($_POST['Observacoes'][$cpf], ENT_QUOTES, 'UTF-8');
 
+    //Atualiza os dados
     $sql_update = "UPDATE disciplina_aluno 
                    SET PPI = ?, AIS = ?, MC = ?, Nota1 = ?, Nota2 = ?, 
                        AIA = ?, Faltas = ?, Observacoes = ?
@@ -83,9 +84,11 @@ $rowsx = $resultx->fetch_assoc();
             margin: auto;
         }
         .form-control {
-            text-align: center; /* Centraliza o texto */
-        }
+            text-align: center;        }
     </style>
+
+    <!-- Não sou fã de javascript mas  foi necessário -->
+
     <script>
         // Função para validar os valores nos campos de texto
         function limitarValor(elemento) {
@@ -115,6 +118,8 @@ $rowsx = $resultx->fetch_assoc();
     </script>
 </head>
 <body>
+    <!-- Tabela de inserção de notas -->
+
     <div class="container mt-3">
         <h3 class="text-center">Tabela de Notas <?php echo $row_d['Nome']; ?> - Turma <?php echo $row_t['Nome']; ?></h3>
         <form action="" method="POST">
@@ -148,6 +153,8 @@ $rowsx = $resultx->fetch_assoc();
                         $nome_row = $nome_result->fetch_assoc();
                         $nome = $nome_row['Nome'];
 
+                        //Variaveis que definem o que o usuario com determinada permissão pode ver
+
                         $obs_view = 'readonly';
                         $notas_view = 'readonly';
                         $faltas_view = 'readonly';
@@ -170,6 +177,7 @@ $rowsx = $resultx->fetch_assoc();
 
                         // Calcula a nota final
                         $notafinal = (($row['Nota1'] * 6) + ($row['Nota2'] * 4)) / 10;
+
 
                         if ($rowsx['Tipo_usuario'] == 'admin' or $rowsx['ID'] == $row_l['idProfessor']) {
                             echo "<tr>

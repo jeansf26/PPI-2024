@@ -79,6 +79,8 @@
 
         $emaillogado = $_SESSION['email'];
 
+        //Carrega os dados do usuario logado, para checar suas permissões depois
+
         $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
         $resultx = $conn->query($sqlx);
         $rowsx = $resultx->fetch_assoc();
@@ -113,7 +115,7 @@
                 }
                 $stmt_u->close();
             } else {
-                // Carrega os dados atuais do professor
+                // Carrega os dados atuais da turma
                 $sql = "SELECT * FROM turma WHERE ID=?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("i", $ID);
@@ -122,7 +124,7 @@
                 $row = $result->fetch_assoc();
 
                 if ($row) {
-                    // Exibe o formulário com os dados do professor
+                    // Exibe o formulário com os dados da turma
                     echo '
                     <h2 style="margin-left: 210px !important;">Editar turma:</h2>
                     <br>

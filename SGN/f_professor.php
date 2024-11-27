@@ -72,6 +72,7 @@
                     </li>
                 </ul>
             </div>
+            <!-- Formulário de cadastro -->
 
 <h2 style="margin-left: 210px !important;">Cadastro de Professores:</h2>
 <br>

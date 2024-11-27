@@ -43,6 +43,7 @@ else{
 			if ($result_disc && $row_disc = mysqli_fetch_assoc($result_disc)) {
 			    $ID_disc = $row_disc['ID'];
 
+			    //Insere o professor da disciplina no banco de dados
 			    $sql2 = "INSERT INTO leciona (ID, idProfessor) VALUES('{$ID_disc}','{$prof}')" or die( mysql_error() );
 
 				$salvar2 = mysqli_query($conn, $sql2);

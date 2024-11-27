@@ -38,7 +38,7 @@
 	$id_turma_query = "SELECT ID FROM turma WHERE Nome = '{$turma}'";
 	$result_turma = mysqli_query($conn, $id_turma_query);
 	$row_turma = mysqli_fetch_assoc($result_turma);
-	$id_turma = $row_turma['ID'];  // Agora $id_turma contém o valor correto
+	$id_turma = $row_turma['ID'];  
 
 	// Inserção na tabela aluno
 	$sql = "INSERT INTO aluno (CPF, Acompanhamento, Email, Nome, Aux_permanencia, Cidade, Genero, Reprovacoes, Apoio_psic, Cotista, Data_nasc, UF, Estagio, Interno, Matricula, Acomp_saude, Proj_pesq, Proj_ext, Proj_ens)
@@ -50,7 +50,7 @@
 	$sql2 = "INSERT INTO turma_aluno (ID, CPF) VALUES ('{$id_turma}', '{$cpf}')";
 	$salvar2 = mysqli_query($conn, $sql2) or die(mysqli_error($conn));
 
-	// Inserção nas disciplinas
+	// Seleção de dados das disciplinas da turma para cadastrar na tabela disciplina_aluno depois
 	$sql_disciplinas = "SELECT ID FROM disciplina WHERE idTurma = {$id_turma}";
 	$result_disciplinas = mysqli_query($conn, $sql_disciplinas);
 
