@@ -9,6 +9,18 @@ include 'config.php';
 
 if (isset($_GET['CPF'])) {
     $CPF = $_GET['CPF'];
+    $sql_ta = "SELECT ID FROM turma_aluno WHERE CPF=?";
+    $stmt_ta = $conn->prepare($sql_ta);
+    $stmt_ta->bind_param("s", $CPF);
+    $stmt_ta->execute();
+    $result_ta = $stmt_ta->get_result();
+
+    if ($result_ta->num_rows > 0) {
+        $row_ta = $result_ta->fetch_assoc();
+        $ID_t = $row_ta['ID'];
+    } else {
+        $ID_t = 0;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Recebe os dados do formulário
@@ -20,6 +32,61 @@ if (isset($_GET['CPF'])) {
         $cty = $_POST['cty'];
         $uf = $_POST['uf'];
         $rep = $_POST['rep'];
+        $turma = $_POST['turma'];
+
+        //Um monte de consultas ao banco de dados para pegar o nome da turma que o aluno está
+
+        
+        if ($ID_t != 0) {
+            $sql_t = "SELECT Nome FROM turma WHERE ID=?";
+            $stmt_t = $conn->prepare($sql_t);
+            $stmt_t->bind_param("s", $ID_t);
+            $stmt_t->execute();
+            $result_t = $stmt_t->get_result();
+            $row_t = $result_t->fetch_assoc();
+
+
+            if ($turma != $row_t['Nome']) {
+
+                //Excluindo a linha do aluno com a turma
+                $sql_apagar1 = "DELETE FROM turma_aluno WHERE CPF = ?";
+                $stmt_apagar1 = $conn->prepare($sql_apagar1);
+                $stmt_apagar1->bind_param("s", $CPF); 
+                $stmt_apagar1->execute();
+
+                //Excluindo a linha do aluno com suas disciplinas
+                $sql_apagar2 = "DELETE FROM disciplina_aluno WHERE CPF = ?";
+                $stmt_apagar2 = $conn->prepare($sql_apagar2);
+                $stmt_apagar2->bind_param("s", $CPF); 
+                $stmt_apagar2->execute();
+
+
+                // Consulta para obter ID da turma
+                $id_turma_query = "SELECT ID FROM turma WHERE Nome = ?";
+                $stmt_turma = $conn->prepare($id_turma_query);
+                $stmt_turma->bind_param("s", $turma);
+                $stmt_turma->execute();
+                $result_turma = $stmt_turma->get_result();
+                $row_turma = $result_turma->fetch_assoc();
+                $id_turma = $row_turma['ID'];
+
+                // Inserção na tabela turma_aluno
+                $sql2 = "INSERT INTO turma_aluno (ID, CPF) VALUES ('{$id_turma}', '{$CPF}')";
+                $salvar2 = mysqli_query($conn, $sql2) or die(mysqli_error($conn));
+
+                // Inserção nas disciplinas
+                $sql_disciplinas = "SELECT ID FROM disciplina WHERE idTurma = {$id_turma}";
+                $result_disciplinas = mysqli_query($conn, $sql_disciplinas);
+
+                if ($result_disciplinas && mysqli_num_rows($result_disciplinas) > 0) {
+                    while ($row = mysqli_fetch_assoc($result_disciplinas)) {
+                        $sql3 = "INSERT INTO disciplina_aluno (PPI, MC, AIA, Observacoes, AIS, Faltas, Nota1, Nota2, CPF, ID, parcial1, parcial2)
+                                 VALUES ('', '', '', '', '', '', '', '', '{$CPF}', '{$row['ID']}', '', '')";
+                        $salvar3 = mysqli_query($conn, $sql3) or die(mysqli_error($conn));
+                    }
+                }
+            }
+        }
         $acomp = $_POST['acomp'];
         $aux_per = $_POST['aux_per'];
         $ap_psic = $_POST['ap_psic'];
@@ -30,6 +97,9 @@ if (isset($_GET['CPF'])) {
         $proj_pesq = $_POST['proj_pesq'];
         $proj_ext = $_POST['proj_ext'];
         $proj_ens = $_POST['proj_ens'];
+
+
+
 
         // Atualiza os dados no banco de dados
         $sql = "UPDATE aluno SET Nome=?, Matricula=?, Email=?, Genero=?, Data_nasc=?, Cidade=?, UF=?, Reprovacoes=?, Acompanhamento=?, Aux_permanencia=?, Apoio_psic=?, Cotista=?, Estagio=?, Interno=?, Acomp_saude=?, Proj_pesq=?, Proj_ext=?, Proj_ens=? WHERE CPF=?";
@@ -59,6 +129,16 @@ if (isset($_GET['CPF'])) {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+
+        // Carrega as turmas do banco de dados
+        $sqlTurmas = "SELECT * FROM turma";
+        $resultTurmas = $conn->query($sqlTurmas);
+        $turmas = [];
+        if ($resultTurmas->num_rows > 0) {
+            while ($turma = $resultTurmas->fetch_assoc()) {
+                $turmas[] = $turma;
+            }
+        }
 
         if ($row) {
             // Exibe o formulário com os dados do aluno
@@ -161,6 +241,22 @@ if (isset($_GET['CPF'])) {
                             <input class="form-control py-1" type="number" id="rep" name="rep" placeholder="Digite as reprovações" value="' . htmlspecialchars($row['Reprovacoes']) . '" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="turma">Turma:</label>
+                            <select class="form-select py-1" id="turma" name="turma" required>
+                                <option value="" disabled>Selecione uma turma</option>';
+                                foreach ($turmas as $turma) {
+                                // Verifica se a turma atual do aluno corresponde ao ID da turma na lista
+                                $selected = ((int)$turma['ID'] === (int)$ID_t) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($turma['Nome']) . '" ' . $selected . '>' . htmlspecialchars($turma['Nome']) . '</option>';
+                            }
+
+
+
+                        echo '
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label" for="acomp"><b>Acompanhamento:</b></label><br>
                             <input type="radio" id="acomp_sim" name="acomp" value="1" ' . ($row['Acompanhamento'] == 1 ? 'checked' : '') . '>
                             <label for="acomp_sim">Sim</label>
@@ -235,8 +331,7 @@ if (isset($_GET['CPF'])) {
                     <button onclick="goBack()" class="btn btn-danger mt-3 p-1">Cancelar</button>
                 </div>
             </body>
-            </html>
-            ';
+            </html>';
         } else {
             echo '<div class="alert alert-danger">Aluno não encontrado.</div>';
         }

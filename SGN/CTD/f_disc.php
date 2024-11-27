@@ -7,6 +7,21 @@
     }
 
     $ID = $_GET['ID'];
+
+    include ('../config.php');
+
+    $sql = "SELECT ID, Nome FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'prof'";
+    $result = $conn->query($sql);
+
+    $profs = [];
+    
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $profs[] = $row;
+        }
+    }
+
+    $conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +102,16 @@
                 <label class="form-label" for="name">Nome:</label>
                 <input class="form-control" type="text" id="name" name="name" placeholder="Digite o nome" required>
                 
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="prof">Professor responsável:</label>
+                <select class="form-select py-1" id="prof" name="prof" required>
+                    <option value="" disabled selected>Selecione um professor</option>
+                    <?php foreach ($profs as $prof): ?>
+                        <option value="<?= htmlspecialchars($prof['ID']) ?>"><?= htmlspecialchars($prof['Nome']) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             
             <button type="submit" class="btn btn-primary p-1">Enviar</button>

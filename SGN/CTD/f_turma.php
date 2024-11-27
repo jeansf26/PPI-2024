@@ -6,7 +6,14 @@
         exit(); // Adiciona um exit após o header redirecionar para garantir que o script pare de executar
     }
 
+    include "../config.php";
+
     $ID = $_GET['ID'];
+    $emaillogado = $_SESSION['email'];
+
+    $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
+    $resultx = $conn->query($sqlx);
+    $rowsx = $resultx->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +93,12 @@
 
                 <label class="form-label" for="name">Nome:</label>
                 <input class="form-control" type="text" id="name" name="name" placeholder="Digite o nome" required>
-                
-                <label for="data-de-entrega">Data de entrega de notas:</label>
-                <input class="form-control py-1" type="date" placeholder="" name="entrega" id="entrega" required>
+                <?php
+                 if ($rowsx['Tipo_usuario'] == 'admin' or $rowsx['G_datas'] == 1) {
+                     echo '<label for="data-de-entrega">Data de entrega de notas:</label>
+                <input class="form-control py-1" type="date" placeholder="" name="entrega" id="entrega">';
+                 }
+                 ?>
             </div>
             
             <button type="submit" class="btn btn-primary p-1">Enviar</button>

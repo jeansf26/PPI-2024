@@ -135,7 +135,7 @@
                 <select class="form-select py-1" id="turma" name="turma" required>
                     <option value="" disabled selected>Selecione uma turma</option>
                     <?php foreach ($turmas as $turma): ?>
-                        <option value="<?= htmlspecialchars($turma['ID']) ?>"><?= htmlspecialchars($turma['Nome']) ?></option>
+                        <option value="<?= htmlspecialchars($turma['Nome']) ?>"><?= htmlspecialchars($turma['Nome']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

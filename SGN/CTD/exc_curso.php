@@ -35,34 +35,46 @@ if (!isset($_SESSION["email"])) {
                 $conn->begin_transaction();
 
                 try {
-                    // Excluir relações disciplina_aluno para todas as disciplinas do curso
+                    // Iniciar transação
+                    $conn->begin_transaction();
+
+                    // Seleciona disciplinas associadas ao curso
                     $sql_get_disciplinas = "SELECT ID FROM disciplina WHERE idTurma IN (SELECT ID FROM turma WHERE idCurso = ?)";
                     $stmt_get_disciplinas = $conn->prepare($sql_get_disciplinas);
                     $stmt_get_disciplinas->bind_param("i", $ID);
                     $stmt_get_disciplinas->execute();
                     $result_disciplinas = $stmt_get_disciplinas->get_result();
 
+                    // Preparar comandos de exclusão
+                    $sql_del_leciona = "DELETE FROM leciona WHERE ID = ?";
+                    $stmt_del_leciona = $conn->prepare($sql_del_leciona);
+
                     $sql_del_disciplina_aluno = "DELETE FROM disciplina_aluno WHERE ID = ?";
                     $stmt_del_disciplina_aluno = $conn->prepare($sql_del_disciplina_aluno);
 
                     while ($disciplina = $result_disciplinas->fetch_assoc()) {
+                        // Excluir relações disciplina_aluno
                         $stmt_del_disciplina_aluno->bind_param("i", $disciplina['ID']);
                         $stmt_del_disciplina_aluno->execute();
+
+                        // Excluir relações leciona
+                        $stmt_del_leciona->bind_param("i", $disciplina['ID']);
+                        $stmt_del_leciona->execute();
                     }
 
-                    // Excluir todas as disciplinas associadas às turmas do curso
+                    // Excluir disciplinas associadas às turmas do curso
                     $sql_del_disciplinas = "DELETE FROM disciplina WHERE idTurma IN (SELECT ID FROM turma WHERE idCurso = ?)";
                     $stmt_del_disciplinas = $conn->prepare($sql_del_disciplinas);
                     $stmt_del_disciplinas->bind_param("i", $ID);
                     $stmt_del_disciplinas->execute();
 
-                    // Excluir todas as relações turma_aluno
+                    // Excluir relações turma_aluno
                     $sql_del_turma_aluno = "DELETE FROM turma_aluno WHERE ID IN (SELECT ID FROM turma WHERE idCurso = ?)";
                     $stmt_del_turma_aluno = $conn->prepare($sql_del_turma_aluno);
                     $stmt_del_turma_aluno->bind_param("i", $ID);
                     $stmt_del_turma_aluno->execute();
 
-                    // Excluir todas as turmas associadas ao curso
+                    // Excluir turmas associadas ao curso
                     $sql_del_turmas = "DELETE FROM turma WHERE idCurso = ?";
                     $stmt_del_turmas = $conn->prepare($sql_del_turmas);
                     $stmt_del_turmas->bind_param("i", $ID);
@@ -74,6 +86,7 @@ if (!isset($_SESSION["email"])) {
                     $stmt_del_curso->bind_param("i", $ID);
                     $stmt_del_curso->execute();
 
+                    // Confirmar a transação
                     $conn->commit();
 
                     echo "<script>

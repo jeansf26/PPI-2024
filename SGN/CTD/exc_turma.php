@@ -52,12 +52,19 @@ if (!isset($_SESSION["email"])) {
                     $stmt_get_id_d->execute();
                     $result_d = $stmt_get_id_d->get_result();
 
+                    $sql_del_l = "DELETE FROM leciona WHERE ID = ?";
+                    $stmt_l = $conn->prepare($sql_del_l);
+
                     // Exclui as relações de todas as disciplinas encontradas
                     $sql_del_da = "DELETE FROM disciplina_aluno WHERE ID = ?";
                     $stmt_da = $conn->prepare($sql_del_da);
 
                     while ($row_d = $result_d->fetch_assoc()) {
                         $ID_da = $row_d['ID'];
+
+                        $stmt_l->bind_param("i", $ID_da);
+                        $stmt_l->execute();
+
                         $stmt_da->bind_param("i", $ID_da);
                         $stmt_da->execute();
                     }

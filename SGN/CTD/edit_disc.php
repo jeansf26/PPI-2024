@@ -80,11 +80,39 @@
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
+            $sql = "SELECT ID, Nome FROM usuario_setor_professor_administrador WHERE Tipo_usuario = 'prof'";
+            $result = $conn->query($sql);
+
+            $profs = [];
+            
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $profs[] = $row;
+                }
+            }
+
+            $sql_p = "SELECT idProfessor FROM leciona WHERE ID=?";
+            $stmt_p = $conn->prepare($sql_p);
+            $stmt_p->bind_param("s", $ID);
+            $stmt_p->execute();
+            $result_p = $stmt_p->get_result();
+            $row_p = $result_p->fetch_assoc();
+            $ID_p = $row_p['idProfessor'];
+
             //Verifica se o formulário de edição foi enviado
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Recebe os dados do formulário
                 $name = $_POST['name'];
+                $prof = $_POST['prof'];
+
+                if ($prof != $ID_p) {
+                    $sql_u = "UPDATE leciona SET idProfessor=? WHERE ID=?";
+                    $stmt_u = $conn->prepare($sql_u);
+                    $stmt_u->bind_param("ii", $prof, $ID);
+                    $stmt_u->execute();
+                }
+
 
                 // Atualiza os dados no banco de dados
                 $sql = "UPDATE disciplina SET Nome=? WHERE ID=?";
@@ -123,6 +151,18 @@
                         <div class="mb-3">
                             <label class="form-label" for="name">Nome:</label>
                             <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" value="' . htmlspecialchars($row['Nome']) . '">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="prof">Professor responsável:</label>
+                            <select class="form-select py-1" id="prof" name="prof" required>
+                                <option value="" disabled>Selecione um professor</option>';
+                                foreach ($profs as $prof) {
+                                // Verifica se a turma atual do aluno corresponde ao ID da turma na lista
+                                $selected = ((int)$prof['ID'] === (int)$ID_p) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($prof['ID']) . '" ' . $selected . '>' . htmlspecialchars($prof['Nome']) . '</option>';
+                            }
+                        echo '
+                            </select>
                         </div>
                         <button class="btn btn-primary p-1" type="submit">Enviar</button>
                     </form>

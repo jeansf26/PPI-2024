@@ -14,6 +14,7 @@
 
 	 $nom = $_POST["name"];
 	 $ID = $_POST['ID'];
+	 $prof = $_POST['prof'];
 
 
 //----------------------------------------------------------------------------------------
@@ -42,14 +43,18 @@ else{
 			if ($result_disc && $row_disc = mysqli_fetch_assoc($result_disc)) {
 			    $ID_disc = $row_disc['ID'];
 
+			    $sql2 = "INSERT INTO leciona (ID, idProfessor) VALUES('{$ID_disc}','{$prof}')" or die( mysql_error() );
+
+				$salvar2 = mysqli_query($conn, $sql2);
+
 			    $sql_alunoturma = "SELECT CPF FROM turma_aluno WHERE ID = '$ID'";
 			    $result_alunoturma = mysqli_query($conn, $sql_alunoturma);
 
 			    if ($result_alunoturma && mysqli_num_rows($result_alunoturma) > 0) {
 
 			        while ($row = mysqli_fetch_assoc($result_alunoturma)) {
-			            $sql3 = "INSERT INTO disciplina_aluno (PPI, MC, AIA, Observacoes, AIS, Faltas, Nota1, Nota2, CPF, ID)
-			                     VALUES ('', '', '', '', '', '', '', '', '{$row['CPF']}', '$ID_disc')";
+			            $sql3 = "INSERT INTO disciplina_aluno (PPI, MC, AIA, Observacoes, AIS, Faltas, Nota1, Nota2, CPF, ID, parcial1, parcial2)
+	                 VALUES ('', '', '', '', '', '', '', '', '{$row['CPF']}', '$ID_disc', '', '')";
 			            $salvar3 = mysqli_query($conn, $sql3);
 			        }
 			    }

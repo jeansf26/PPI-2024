@@ -46,6 +46,12 @@
                 $conn->begin_transaction();
 
                 try {
+
+                    $sql_del_l = "DELETE FROM leciona WHERE ID = ?";
+                    $stmt_l = $conn->prepare($sql_del_l);
+                    $stmt_l->bind_param("i", $ID);
+                    $stmt_l->execute();
+
                     //Deleta a disciplina
                     $sql_del_d = "DELETE FROM disciplina WHERE ID = ?";
                     $stmt_d = $conn->prepare($sql_del_d);

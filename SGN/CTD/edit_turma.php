@@ -77,6 +77,13 @@
         <?php
         include '../config.php';
 
+        $emaillogado = $_SESSION['email'];
+
+        $sqlx = "SELECT * FROM usuario_setor_professor_administrador WHERE email='$emaillogado'";
+        $resultx = $conn->query($sqlx);
+        $rowsx = $resultx->fetch_assoc();
+
+
         if (isset($_GET['ID'])) {
             $ID = $_GET['ID'];
 
@@ -124,16 +131,19 @@
                         <div class="mb-3">
                             <label class="form-label" for="name">Nome:</label>
                             <input class="form-control py-1" type="text" id="name" name="name" placeholder="Digite o nome" value="' . htmlspecialchars($row['Nome']) . '">
-                        </div>
-                        <div class="mb-3">
+                        </div>';
+
+                        if ($rowsx['Tipo_usuario'] == 'admin' or $rowsx['G_datas'] == 1) {
+                            echo '<div class="mb-3">
                             <label class="form-label" for="entrega">Data de entrega:</label>
                             <input class="form-control py-1" type="date" id="entrega" name="entrega" placeholder="" value="' . htmlspecialchars($row['Data_entrega']) . '">
-                        </div>
+                        </div>';
+                        }
+                        echo '
                         <button class="btn btn-primary p-1" type="submit">Enviar</button>
                     </form>
                     <button onclick="goBack()" class="btn btn-danger mt-3 p-1">Cancel</button>
-                    </div>
-                    ';
+                    </div>';
                 } else {
                     echo '<div class="alert alert-danger">Turma não encontrada.</div>';
                 }
