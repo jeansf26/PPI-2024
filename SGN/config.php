@@ -1,5 +1,5 @@
 <?php
-$servername = "127.0.0.1:3307";
+$servername = "127.0.0.1:3306";
 $database = "ppi";
 $username = "root";
 $password = "";

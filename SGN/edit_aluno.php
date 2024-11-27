@@ -37,7 +37,7 @@ if (isset($_GET['CPF'])) {
         //Um monte de consultas ao banco de dados para pegar o nome da turma que o aluno está
 
         
-        if ($ID_t != 0) {
+        if ($ID_t != $turma) {
             $sql_t = "SELECT Nome FROM turma WHERE ID=?";
             $stmt_t = $conn->prepare($sql_t);
             $stmt_t->bind_param("s", $ID_t);
@@ -243,7 +243,7 @@ if (isset($_GET['CPF'])) {
                         <div class="mb-3">
                             <label class="form-label" for="turma">Turma:</label>
                             <select class="form-select py-1" id="turma" name="turma" required>
-                                <option value="" disabled>Selecione uma turma</option>';
+                                <option value="" >Selecione uma turma</option>';
                                 foreach ($turmas as $turma) {
                                 // Verifica se a turma atual do aluno corresponde ao ID da turma na lista
                                 $selected = ((int)$turma['ID'] === (int)$ID_t) ? 'selected' : '';
